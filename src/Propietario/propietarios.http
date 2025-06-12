@@ -1,0 +1,41 @@
+###Obtener todos los propietarios
+GET http://localhost:3000/api/propietarios
+
+###Obtener un propietario
+GET http://localhost:3000/api/propietarios/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+
+###Agregar un propietarios
+POST http://localhost:3000/api/propietarios
+Content-Type: application/json
+
+{
+  "nombrePropietario": "Irina",
+  "apellidoPropietario": "Repupilli",
+  "mailPropietario": "irirepupill@gmail.com",
+  "telefonoPropietario": "3364574777"
+}
+
+###Modificar un propietario, completo
+PUT http://localhost:3000/api/propietarios/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+{
+  "nombrePropietario": "Viviana",
+  "apellidoPropietario": "Ziros",
+  "mailPropietario": "viviziros@gmail.com",
+  "telefonoPropietario": "3364574777"
+}
+
+###Modi parcial
+PATCH http://localhost:3000/api/propietarios/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+Content-Type: application/json
+
+{
+  "nombrePropietario": "Bianca",
+  "apellidoPropietario": "Repupilli",
+  "telefonoPropietario": "3364574777"
+}
+
+###Borrar un propietario
+DELETE http://localhost:3000/api/propietarios/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+
