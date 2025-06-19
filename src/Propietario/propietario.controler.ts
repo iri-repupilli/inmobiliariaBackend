@@ -10,6 +10,7 @@ function sanitizePropietarioInput(req: Request, res: Response, next: NextFunctio
     apellidoPropietario: req.body.apellidoPropietario,
     mailPropietario: req.body.mailPropietario,
     telefonoPropietario: req.body.telefonoPropietario,
+    codPropietario: req.body.codPropietario,
   }
   
   Object.keys(req.body.sanitizedInput).forEach((key) => {
@@ -32,18 +33,18 @@ function add(req:Request, res:Response){
   const input = req.body.sanitizedInput
   const propietarioInput = new Propietario(input.nombrePropietario, input.apellidoPropietario, input.mailPropietario, input.telefonoPropietario)
   const propietario = repository.add(propietarioInput)
-  res.status(201).send({message: 'Character created', data: propietario})
+  res.status(201).send({message: 'Propietary created', data: propietario})
 }
 
 function update(req:Request, res:Response){
-  req.body.sanitizedInput.id = req.params.id
+  req.body.sanitizedInput.codPropietario = req.params.id
   const propietario = repository.update(req.body.sanitizedInput)
   
   if(!propietario){
-    res.status(404).send({message : 'Not found the character'})
+    res.status(404).send({message : 'Not found the propietary'})
+  } else{
+    res.status(200).send({message: 'Character modified', data: propietario})
   }
-
-  res.status(200).send({message: 'Character modified', data: propietario})
 }
 
 function remove(req:Request, res:Response){

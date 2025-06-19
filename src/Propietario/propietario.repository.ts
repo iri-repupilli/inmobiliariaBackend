@@ -26,9 +26,9 @@ export class PropietarioRepository implements Repository<Propietario>{
   }
 
   public update(item: Propietario): Propietario | undefined{
-    const propietarioId = propietarios.findIndex((propietario) => propietario.codPropietario === item.codPropietario)
-    if (propietarioId !== -1) {
-      propietarios[propietarioId] = {...propietarios[propietarioId], ...item}
+    const propietarioIdx = propietarios.findIndex((propietario) => propietario.codPropietario === item.codPropietario)
+    if (propietarioIdx !== -1) {
+      propietarios[propietarioIdx] = {...propietarios[propietarioIdx], ...item}
     }
     return item
   }
