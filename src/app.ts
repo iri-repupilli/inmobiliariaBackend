@@ -1,11 +1,19 @@
+import 'reflect-metadata';
+import {orm, syncSchema} from './shared/orm.js';
 import express from 'express'
 import { propietarioRouter } from './Propietario/propietario.routes.js';
+import { RequestContext } from '@mikro-orm/core';
 
 //defino la app
 const app = express();
-
 app.use(express.json()) 
 
+//luego de los middlewares base
+app.use((req, res, next) => {
+  RequestContext.create(orm.em, next)
+})
+
+//antes de los middlewares del negocio
 //llamada al crud
 app.use('/api/propietarios', propietarioRouter)
 

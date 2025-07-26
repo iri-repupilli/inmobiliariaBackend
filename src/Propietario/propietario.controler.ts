@@ -21,39 +21,44 @@ function sanitizePropietarioInput(req: Request, res: Response, next: NextFunctio
   next()
 }
 
-function findAll(req: Request, res: Response){
-  res.json({data: repository.findAll()})
+async function findAll(req: Request, res: Response){
+  // res.json({data: repository.findAll()})
+  res.status(500).json({message: 'Not implemented yet'})
 }
 
-function findOne(req:Request, res:Response){
-  res.json({data: repository.findOne({id: req.params.id})})
+async function findOne(req:Request, res:Response){
+  // res.json({data: repository.findOne({id: req.params.id})})
+  res.status(500).json({message: 'Not implemented yet'})
 }
 
-function add(req:Request, res:Response){
-  const input = req.body.sanitizedInput
-  const propietarioInput = new Propietario(input.nombrePropietario, input.apellidoPropietario, input.mailPropietario, input.telefonoPropietario)
-  const propietario = repository.add(propietarioInput)
-  res.status(201).send({message: 'Propietary created', data: propietario})
+async function add(req:Request, res:Response){
+  // const input = req.body.sanitizedInput
+  // const propietarioInput = new Propietario(input.nombrePropietario, input.apellidoPropietario, input.mailPropietario, input.telefonoPropietario)
+  // const propietario = repository.add(propietarioInput)
+  // res.status(201).send({message: 'Propietary created', data: propietario})
+  res.status(500).json({message: 'Not implemented yet'})
 }
 
-function update(req:Request, res:Response){
-  req.body.sanitizedInput.codPropietario = req.params.id
-  const propietario = repository.update(req.body.sanitizedInput)
+async function update(req:Request, res:Response){
+  // req.body.sanitizedInput.codPropietario = req.params.id
+  // const propietario = repository.update(req.body.sanitizedInput)
   
-  if(!propietario){
-    res.status(404).send({message : 'Not found the propietary'})
-  } else{
-    res.status(200).send({message: 'Character modified', data: propietario})
-  }
+  // if(!propietario){
+  //   res.status(404).send({message : 'Not found the propietary'})
+  // } else{
+  //   res.status(200).send({message: 'Character modified', data: propietario})
+  // }
+  res.status(500).json({message: 'Not implemented yet'})
 }
 
-function remove(req:Request, res:Response){
-  const id = req.params.id
-  const propietario = repository.remove({id})
-  if (!propietario) {
-    res.status(404).send({message: 'Not found propietary'})
-  }
-  res.status(200).send({messagge: 'Propietary deleted', data: propietario})
+async function remove(req:Request, res:Response){
+  // const id = req.params.id
+  // const propietario = repository.remove({id})
+  // if (!propietario) {
+  //   res.status(404).send({message: 'Not found propietary'})
+  // }
+  // res.status(200).send({messagge: 'Propietary deleted', data: propietario})
+  res.status(500).json({message: 'Not implemented yet'})
 }
 
 export {sanitizePropietarioInput, findAll, findOne, add, update, remove}
