@@ -12,7 +12,6 @@ app.use(express.json())
 app.use((req, res, next) => {
   RequestContext.create(orm.em, next)
 })
-
 //antes de los middlewares del negocio
 //llamada al crud
 app.use('/api/propietarios', propietarioRouter)
@@ -21,6 +20,8 @@ app.use((_, res)=> {
   res.status(404).send({ message: 'Resource not found' })
   return //dejar el return vacio o no ponerlo si utilizo express 5.0
  })
+
+await syncSchema() //solo en desarrollo
 
 //defino el puerto por donde va a escuchar
 app.listen(3000, ()=>{
