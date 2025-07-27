@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {orm, syncSchema} from './shared/orm.js';
+import {orm, syncSchema} from './shared/db/orm.js';
 import express from 'express'
 import { propietarioRouter } from './Propietario/propietario.routes.js';
 import { RequestContext } from '@mikro-orm/core';
