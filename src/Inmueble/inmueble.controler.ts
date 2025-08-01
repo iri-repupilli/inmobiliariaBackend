@@ -51,8 +51,7 @@ async function findOne(req: Request, res: Response) {
 async function add(req: Request, res: Response) {
   try {
     const inmueble = em.create(Inmueble, req.body.sanitizedInput);
-    console.log('¿Es instancia de Inmueble?', inmueble instanceof Inmueble);
-    console.log('Entidad creada:', inmueble);
+
     await em.persistAndFlush(inmueble);
     res
       .status(200)
