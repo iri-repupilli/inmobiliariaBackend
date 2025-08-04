@@ -1,0 +1,65 @@
+### GET ALL
+GET http://localhost:3000/api/inmuebles
+
+### POST
+# @name crearInmueble
+POST http://localhost:3000/api/inmuebles
+Content-Type: application/json
+
+{
+    "mtrs": 20,
+    "descripcion": "Iluminado",
+    "antiguedad":15,
+    "fechaPublicacion": "2025-08-01",
+    "requisitos": "recibo de sueldo"
+}
+
+###ID
+@id = {{crearInmueble.response.body.data.id}}
+
+### GET ONE
+GET http://localhost:3000/api/inmuebles/{{id}}
+
+### PUT
+PUT http://localhost:3000/api/inmuebles/{{id}}
+Content-Type: application/json
+
+{
+    "mtrs": "30",
+    "descripcion": "A pocos metros de Blvd Oroño",
+    "antiguedad":10,
+    "fechaPublicacion": "2025-07-01",
+    "requisitos": "garantia"
+}
+
+### POST 2
+POST http://localhost:3000/api/inmuebles
+Content-Type: application/json
+
+{
+    "mtrs": "50",
+    "descripcion": "Cerca de UTN",
+    "antiguedad":0,
+    "fechaPublicacion": "2025-06-28",
+    "requisitos": "recibo de sueldo"
+}
+
+### POST
+# @name crearInmuebleParaBorrar
+POST http://localhost:3000/api/inmuebles
+Content-Type: application/json
+
+{
+    "mtrs": "100",
+    "descripcion": "Espacioso",
+    "antiguedad":15,
+    "fechaPublicacion": "2025-07-21",
+    "requisitos": "recibo de sueldo"
+}
+
+### DELETE
+@idABorrar = {{crearInmuebleParaBorrar.response.body.data.id}}
+
+DELETE http://localhost:3000/api/inmuebles/{{idABorrar}}
+
+

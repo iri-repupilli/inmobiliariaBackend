@@ -1,9 +1,9 @@
-import { PrimaryKey } from "@mikro-orm/core";
+import { PrimaryKey } from '@mikro-orm/core';
 export abstract class BaseEntity {
- @PrimaryKey()
- id?: number
- 
- /*
+  @PrimaryKey()
+  id!: number;
+
+  /*
  @property({type:DateTimeType})
  createdAt?: Date
 
