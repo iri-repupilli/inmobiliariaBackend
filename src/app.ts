@@ -6,6 +6,7 @@ import { propietarioRouter } from './Propietario/propietario.routes.js';
 import { inmuebleRouter } from './Inmueble/inmueble.routes.js';
 import { tipoServicioRouter } from './TipoServicio/tipoServicio.routes.js';
 import { usuarioRouter } from './Usuario/usuario.routes.js';
+import { localidadRouter } from './Localidad/localidad.routes.js';
 
 
 //defino la app
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 });
 //antes de los middlewares del negocio
 //llamada al crud
+app.use('/api/localidades', localidadRouter);
 app.use('/api/usuarios', usuarioRouter)
 app.use('/api/tiposervicios', tipoServicioRouter);
 app.use('/api/propietarios', propietarioRouter);
