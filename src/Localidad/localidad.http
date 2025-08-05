@@ -1,0 +1,42 @@
+###Find all
+GET http://localhost:3000/api/localidades
+
+### POST
+# @name crearLocalidad
+POST http://localhost:3000/api/localidades
+Content-Type: application/json
+
+{
+    "codPostal": 2000,
+    "nombre": "Rosario"
+}
+
+# ###ID
+# @id = {{crearLocalidad.response.body.data.id}}
+
+# ### GET ONE
+# GET http://localhost:3000/api/localidades/{{id}}
+
+### PUT
+# PUT http://localhost:3000/api/localidades/{{id}}
+# Content-Type: application/json
+
+# {
+#     "codPostal": 2001,
+#     "nombre": "Rosario Norte"
+# }
+### POST 2
+# @name crearLocalidadToDelete
+POST http://localhost:3000/api/localidades
+Content-Type: application/json
+
+{
+    "codPostal": 2900,
+    "nombre": "San nicolas"
+}
+
+###Id to delete
+@idToDelete = {{crearLocalidadToDelete.response.body.data.id}}
+
+### DELETE
+DELETE http://localhost:3000/api/localidades/{{idToDelete}}
