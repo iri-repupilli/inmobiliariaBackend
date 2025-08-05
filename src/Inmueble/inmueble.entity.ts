@@ -1,6 +1,7 @@
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
-import { Entity, Property, ManyToOne, Rel, Cascade } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, Rel } from '@mikro-orm/core';
 import { Propietario } from '../Propietario/propietario.entity.js';
+import { TipoServicio } from '../TipoServicio/tipoServicio.entity.js';
 @Entity()
 export class Inmueble extends BaseEntity {
   @Property({ nullable: false })
@@ -15,5 +16,6 @@ export class Inmueble extends BaseEntity {
   requisitos!: string;
   @ManyToOne(()=> Propietario, {nullable: false})
   propietario!: Rel<Propietario>;
-
+  @ManyToOne(()=> TipoServicio, {nullable: false})
+  tipoServicio!: Rel<TipoServicio>;
 }

@@ -14,6 +14,7 @@ function sanitizeInmuebleInput(
     fechaPublicacion: req.body.fechaPublicacion,
     requisitos: req.body.requisitos,
     propietario: req.body.propietario,
+    tipoServicio: req.body.tipoServicio,
   };
   //more checks here
 
@@ -28,7 +29,7 @@ function sanitizeInmuebleInput(
 const em = orm.em;
 async function findAll(req: Request, res: Response) {
   try {
-    const inmuebles = await em.find(Inmueble, {}, { populate: ['propietario'] });
+    const inmuebles = await em.find(Inmueble, {}, { populate: ['propietario', 'tipoServicio'] });
     res.status(200).json({
       message: 'se encontraron todos los inmuebles',
       data: inmuebles,
@@ -41,7 +42,7 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const inmueble = await em.findOneOrFail(Inmueble, { id }, { populate: ['propietario'] });
+    const inmueble = await em.findOneOrFail(Inmueble, { id }, { populate: ['propietario', 'tipoServicio'] });
     res
       .status(200)
       .json({ message: 'se encontró el inmueble', data: inmueble });

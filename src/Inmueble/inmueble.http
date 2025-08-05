@@ -12,7 +12,8 @@ Content-Type: application/json
     "antiguedad":15,
     "fechaPublicacion": "2025-08-01",
     "requisitos": "recibo de sueldo",
-    "propietario": 1
+    "propietario": 1,
+    "tipoServicio": 1
 }
 
 ###ID
@@ -31,7 +32,8 @@ Content-Type: application/json
     "antiguedad":10,
     "fechaPublicacion": "2025-07-01",
     "requisitos": "garantia",
-    "propietario": 2
+    "propietario": 2,
+    "tipoServicio": 2
 }
 
 ### POST 2
@@ -44,7 +46,8 @@ Content-Type: application/json
     "antiguedad":0,
     "fechaPublicacion": "2025-06-28",
     "requisitos": "recibo de sueldo",
-    "propietario": 1
+    "propietario": 2,
+    "tipoServicio": 2
 }
 
 ### POST
@@ -58,7 +61,8 @@ Content-Type: application/json
     "antiguedad":15,
     "fechaPublicacion": "2025-07-21",
     "requisitos": "recibo de sueldo",
-    "propietario": 2
+    "propietario": 2,
+    "tipoServicio": 2
 }
 
 ### DELETE
