@@ -1,8 +1,6 @@
 import { Propietario } from "./propietario.entity.js";
-import { PropietarioRepository } from "./propietario.repository.js";
 import { Request, Response, NextFunction } from "express";
 
-const repository = new PropietarioRepository()
 
 function sanitizePropietarioInput(req: Request, res: Response, next: NextFunction) {
   req.body.sanitizedInput = {
