@@ -1,0 +1,42 @@
+###Find all
+GET http://localhost:3000/api/tipoServicios
+
+###Add
+# @name createTipoServicio
+POST http://localhost:3000/api/tipoServicios
+Content-Type: application/json
+
+{
+  "nombreTipoServicio": "Compra",
+  "descripcionTipoServicio": "Inmuebles en venta"
+}
+
+###ID
+@id = {{createTipoServicio.response.body.data.id}}
+
+###Get one
+GET http://localhost:3000/api/tipoServicios/{{id}}
+
+###Update complete
+PUT http://localhost:3000/api/tipoServicios/{{id}}
+Content-Type: application/json
+
+{
+  "nombreTipoServicio": "Alquiler Long",
+  "descripcionTipoServicio": "Alquiler de inmuebles a largo plazo"
+}
+
+###AddToDelete
+# @name createTipoServicioToDelete
+POST http://localhost:3000/api/tipoServicios
+Content-Type: application/json
+
+{
+  "nombreTipoServicio": "Alquiler short",
+  "descripcionTipoServicio": "Alquiler de inmuebles a corto plazo"
+}
+###ID to delete
+@idToDelete = {{createTipoServicioToDelete.response.body.data.id}}
+
+###Delete
+DELETE http://localhost:3000/api/tipoServicios/{{idToDelete}}
