@@ -1,0 +1,55 @@
+###Find all
+GET http://localhost:3000/api/usuarios
+
+###Add
+# @name createUsuario
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Cesar",
+  "apellido": "Repupilli",
+  "email": "cibercesar6@hotmail.com",
+  "password": "123456",
+  "telefono": "3364574777",
+  "rol": "ADMIN"
+}
+
+###ID
+@id = {{createUsuario.response.body.data.id}}
+
+###Find one
+GET http://localhost:3000/api/usuarios/{{id}}
+
+###Update complete
+PUT http://localhost:3000/api/usuarios/{{id}}
+Content-Type: application/json
+
+{
+  "nombre": "Cesar",
+  "apellido": "Repupilli",
+  "email": "cesar@hotmail.com",
+  "password": "123456",
+  "telefono": "3364574777",
+  "rol": "ADMIN"
+}
+
+###addToDelete
+# @name createUsuarioToDelete
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Viviana",
+  "apellido": "Ziros",
+  "email": "viviziros@hotmail.com",
+  "password": "123456",
+  "telefono": "3364574777",
+  "rol": "USER"
+}
+
+###ID to delete
+@idToDelete = {{createUsuarioToDelete.response.body.data.id}}
+
+###Delete
+DELETE http://localhost:3000/api/usuarios/{{idToDelete}}
