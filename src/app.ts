@@ -1,10 +1,11 @@
 import 'reflect-metadata';
 import { orm, syncSchema } from './shared/db/orm.js';
 import express from 'express';
+import { RequestContext } from '@mikro-orm/core';
 import { propietarioRouter } from './Propietario/propietario.routes.js';
 import { inmuebleRouter } from './Inmueble/inmueble.routes.js';
 import { tipoServicioRouter } from './TipoServicio/tipoServicio.routes.js';
-import { RequestContext } from '@mikro-orm/core';
+import { usuarioRouter } from './Usuario/usuario.routes.js';
 
 
 //defino la app
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 });
 //antes de los middlewares del negocio
 //llamada al crud
+app.use('/api/usuarios', usuarioRouter)
 app.use('/api/tiposervicios', tipoServicioRouter);
 app.use('/api/propietarios', propietarioRouter);
 app.use('/api/inmuebles', inmuebleRouter);
