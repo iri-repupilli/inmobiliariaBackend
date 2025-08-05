@@ -1,10 +1,8 @@
 ###Obtener todos los propietarios
 GET http://localhost:3000/api/propietarios
 
-###Obtener un propietario
-GET http://localhost:3000/api/propietarios/a02b91bc-3769-4221-beb1-d7a3aeba7dad
-
 ###Agregar un propietarios
+# @name createPropietario
 POST http://localhost:3000/api/propietarios
 Content-Type: application/json
 
@@ -15,8 +13,15 @@ Content-Type: application/json
   "telefonoPropietario": "3364574777"
 }
 
+###ID
+@id = {{createPropietario.response.body.data.id}}
+
+###Obtener un propietario
+GET http://localhost:3000/api/propietarios/{{id}}
+
+
 ###Modificar un propietario, completo
-PUT http://localhost:3000/api/propietarios/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+PUT http://localhost:3000/api/propietarios/{{id}}
 Content-Type: application/json
 
 {
@@ -36,6 +41,21 @@ Content-Type: application/json
   "telefonoPropietario": "3364574777"
 }
 
+###Agregar un propietarios
+# @name createPropietarioToDelete
+POST http://localhost:3000/api/propietarios
+Content-Type: application/json
+
+{
+  "nombrePropietario": "Cesar",
+  "apellidoPropietario": "Repupilli",
+  "mailPropietario": "cibercesar6@gmail.com",
+  "telefonoPropietario": "12345678"
+}
+
+###ID
+@idToDelete = {{createPropietarioToDelete.response.body.data.id}}
+
 ###Borrar un propietario
-DELETE http://localhost:3000/api/propietarios/a02b91bc-3769-4221-beb1-d7a3aeba7dad
+DELETE http://localhost:3000/api/propietarios/{{idToDelete}}
 
