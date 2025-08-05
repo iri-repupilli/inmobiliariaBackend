@@ -7,15 +7,15 @@ POST http://localhost:3000/api/localidades
 Content-Type: application/json
 
 {
-    "codPostal": 2000,
-    "nombre": "Rosario"
+    "codPostal": 3000,
+    "nombre": "Santa Fe"
 }
 
-# ###ID
-# @id = {{crearLocalidad.response.body.data.id}}
+###ID
+@id = {{crearLocalidad.response.body.data.id}}
 
-# ### GET ONE
-# GET http://localhost:3000/api/localidades/{{id}}
+### GET ONE
+GET http://localhost:3000/api/localidades/{{id}}
 
 ### PUT
 # PUT http://localhost:3000/api/localidades/{{id}}
@@ -31,8 +31,8 @@ POST http://localhost:3000/api/localidades
 Content-Type: application/json
 
 {
-    "codPostal": 2900,
-    "nombre": "San nicolas"
+    "codPostal": 2200,
+    "nombre": "San Lorenzo"
 }
 
 ###Id to delete
