@@ -1,5 +1,5 @@
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
-import { Entity, Property, ManyToOne, Rel } from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, Rel, Cascade } from '@mikro-orm/core';
 import { Propietario } from '../Propietario/propietario.entity.js';
 @Entity()
 export class Inmueble extends BaseEntity {

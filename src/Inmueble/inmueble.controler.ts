@@ -13,6 +13,7 @@ function sanitizeInmuebleInput(
     antiguedad: req.body.antiguedad,
     fechaPublicacion: req.body.fechaPublicacion,
     requisitos: req.body.requisitos,
+    propietario: req.body.propietario,
   };
   //more checks here
 
@@ -27,7 +28,7 @@ function sanitizeInmuebleInput(
 const em = orm.em;
 async function findAll(req: Request, res: Response) {
   try {
-    const inmuebles = await em.find(Inmueble, {});
+    const inmuebles = await em.find(Inmueble, {}, { populate: ['propietario'] });
     res.status(200).json({
       message: 'se encontraron todos los inmuebles',
       data: inmuebles,
@@ -40,7 +41,7 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const inmueble = await em.findOneOrFail(Inmueble, { id });
+    const inmueble = await em.findOneOrFail(Inmueble, { id }, { populate: ['propietario'] });
     res
       .status(200)
       .json({ message: 'se encontró el inmueble', data: inmueble });
@@ -54,7 +55,7 @@ async function add(req: Request, res: Response) {
 
     await em.persistAndFlush(inmueble);
     res
-      .status(200)
+      .status(201)
       .json({ message: 'inmueble agregado correctamente', data: inmueble });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -63,8 +64,9 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const inmueble = em.getReference(Inmueble, id);
-    em.assign(inmueble, req.body.sanitizedInput);
+    const inmuebleToUpdate = await em.findOneOrFail(Inmueble, { id });
+    // const inmueble = em.getReference(Inmueble, id);
+    em.assign(inmuebleToUpdate, req.body.sanitizedInput);
     await em.flush();
     res.status(200).json({ message: 'inmueble actualizado correctamente' });
   } catch (error: any) {
