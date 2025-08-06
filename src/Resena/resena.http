@@ -1,0 +1,70 @@
+### GET ALL
+GET http://localhost:3000/api/resenas
+
+### POST
+# @name createResena
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "puntajeresena": 8,
+    "descriptionresena": "El departamento cuenta con 3 baños en excelentes condiciones",
+    "inmueble": 3,    
+    "usuario": 1 
+}
+
+### ID
+@id = {{createResena.response.body.data.id}}
+
+### GET ONE
+GET http://localhost:3000/api/resenas/{{id}}
+
+
+### PUT
+PUT  http://localhost:3000/api/resenas/{{id}}
+Content-Type: application/json
+
+{
+    "puntajeresena": 4,
+    "descriptionresena": "El departamento cuenta con baños que se encuentran en pesimas condiciones",
+    "inmueble": 3,    
+    "usuario": 1
+}
+
+### POST2
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "puntajeresena": 10,
+    "descriptionresena": "La zona es increible, la casa es perfecta y la atencion fue buena",
+    "inmueble": 5,    
+    "usuario": 1
+}
+
+### POST3
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "puntajeresena": 2,
+    "descriptionresena": "El departamento mas pequeño de todo Rosario, no vale la pena calidad/precio",
+    "inmueble": 3,    
+    "usuario": 2
+}
+
+### POST CHARACTER TO DELETE
+# @name createResenaToDelete
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "puntajeresena": 18,
+    "descriptionresena": "excelente patio",
+    "inmueble": 5,    
+    "usuario": 2
+}
+
+### DELETE
+@idToDelete = {{createResenaToDelete.response.body.data.id}}
+DELETE http://localhost:3000/api/resenas/{{idToDelete}}
