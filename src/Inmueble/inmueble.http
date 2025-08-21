@@ -13,7 +13,12 @@ Content-Type: application/json
     "fechaPublicacion": "2025-08-01",
     "requisitos": "recibo de sueldo",
     "propietario": 1,
-    "tipoServicio": 1
+    "tipoServicio": 1,
+    "localidad": 1,
+    "cantAmbientes": 3,
+    "cantBanios": 1,
+    "balcon": true,
+    "tipo": "departamento"
 }
 
 ###ID
@@ -33,7 +38,10 @@ Content-Type: application/json
     "fechaPublicacion": "2025-07-01",
     "requisitos": "garantia",
     "propietario": 2,
-    "tipoServicio": 2
+    "tipoServicio": 2,
+    "localidad": 1,
+    "balcon": false,
+    "tipo": "departamento"
 }
 
 ### POST 2
@@ -47,7 +55,13 @@ Content-Type: application/json
     "fechaPublicacion": "2025-06-28",
     "requisitos": "recibo de sueldo",
     "propietario": 2,
-    "tipoServicio": 2
+    "tipoServicio": 2,
+    "localidad": 1,
+    "cantAmbientes": 3,
+    "cantBanios": 1,
+    "pileta": true,
+    "patio": true, 
+    "tipo": "casa"
 }
 
 ### POST
@@ -62,7 +76,11 @@ Content-Type: application/json
     "fechaPublicacion": "2025-07-21",
     "requisitos": "recibo de sueldo",
     "propietario": 2,
-    "tipoServicio": 2
+    "tipoServicio": 2,
+    "localidad": 1,
+    "tipoVehiculo": "auto",
+    "techo": true, 
+    "tipo": "cochera"
 }
 
 ### DELETE
