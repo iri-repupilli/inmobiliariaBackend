@@ -2,29 +2,6 @@ import { orm } from '../shared/db/orm.js';
 import { Request, Response } from 'express';
 import { TipoServicio } from './tipoServicio.entity.js';
 
-// const pasos = (req: Request, res: Response) => {
-//   try {
-//     const result = addTipoServicioSchema.parse(req.body);
-//     console.log(result);
-//     res.send('Entro');
-//   } catch (error) {
-//     if (error instanceof ZodError) {
-//       return res
-//         .status(400)
-//         .json(error.issues.map((issue) => ({ message: issue.message })));
-//     }
-//     return res.status(500).json({ message: 'Internal server error' });
-//   }
-// };
-
-// const addTipoServicioSchema = z.object({
-//   nombreTipoServicio: z.string().nonempty('Se necesita el nombre').min(1),
-//   descripcionTipoServicio: z
-//     .string()
-//     .nonempty('Se necesita la descripcion')
-//     .min(1),
-// });
-
 const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
