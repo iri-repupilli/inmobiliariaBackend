@@ -7,9 +7,9 @@ POST http://localhost:3000/api/resenas
 Content-Type: application/json
 
 {
-    "puntajeresena": 8,
+    "puntajeresena": 5,
     "descriptionresena": "El departamento cuenta con 3 baños en excelentes condiciones",
-    "inmueble": 3,    
+    "inmueble": 1,    
     "usuario": 1 
 }
 
@@ -25,9 +25,9 @@ PUT  http://localhost:3000/api/resenas/{{id}}
 Content-Type: application/json
 
 {
-    "puntajeresena": 4,
-    "descriptionresena": "El departamento cuenta con baños que se encuentran en pesimas condiciones",
-    "inmueble": 3,    
+    "puntaje": 4,
+    "descripcion": "El departamento cuenta con baños que se encuentran en pesimas condiciones",
+    "inmueble": 2,    
     "usuario": 1
 }
 
@@ -36,8 +36,8 @@ POST http://localhost:3000/api/resenas
 Content-Type: application/json
 
 {
-    "puntajeresena": 10,
-    "descriptionresena": "La zona es increible, la casa es perfecta y la atencion fue buena",
+    "puntaje": 10,
+    "descripcion": "La zona es increible, la casa es perfecta y la atencion fue buena",
     "inmueble": 5,    
     "usuario": 1
 }
@@ -59,10 +59,10 @@ POST http://localhost:3000/api/resenas
 Content-Type: application/json
 
 {
-    "puntajeresena": 18,
+    "puntajeresena": 2,
     "descriptionresena": "excelente patio",
-    "inmueble": 5,    
-    "usuario": 2
+    "inmueble": 1,    
+    "usuario": 1
 }
 
 ### DELETE
