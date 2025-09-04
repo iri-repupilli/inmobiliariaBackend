@@ -1,18 +1,16 @@
-import { Router } from 'express';
+import { Router } from "express";
+import { findAll, findOne, add, update, remove } from "./inmueble.controler.js";
+import { schemaValidation } from "../MiddleWares/schemaValidator.middleware.js";
 import {
-  sanitizeInmuebleInput,
-  findAll,
-  findOne,
-  add,
-  update,
-  remove,
-} from './inmueble.controler.js';
-
+  updateInmuebleSchema,
+  addInmuebleSchema,
+  deleteInmuebleSchema,
+  findOneInmuebleSchema,
+} from "../Schemas/inmueble.schema.js";
 export const inmuebleRouter = Router();
 
-inmuebleRouter.get('/', findAll);
-inmuebleRouter.get('/:id', findOne);
-inmuebleRouter.post('/', sanitizeInmuebleInput, add);
-inmuebleRouter.put('/:id', sanitizeInmuebleInput, update);
-inmuebleRouter.patch('/:id', sanitizeInmuebleInput, update);
-inmuebleRouter.delete('/:id', remove);
+inmuebleRouter.get("/", findAll);
+inmuebleRouter.get("/:id", schemaValidation(findOneInmuebleSchema), findOne);
+inmuebleRouter.post("/", schemaValidation(addInmuebleSchema), add);
+inmuebleRouter.put("/:id", schemaValidation(updateInmuebleSchema), update);
+inmuebleRouter.delete("/:id", schemaValidation(deleteInmuebleSchema), remove);

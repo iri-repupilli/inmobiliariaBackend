@@ -7,10 +7,12 @@ export const findOneConsultaSchema = z.object({
 
 export const addConsultaSchema = z.object({
   body: z.object({
-    dateconsulta: z.string().transform((str) => new Date(str)),
+    dateconsulta: z
+      .string("La fecha es necesaria")
+      .transform((str) => new Date(str)),
     descriptionconsulta: z.string().optional(),
-    inmueble: z.number(),
-    usuario: z.number(),
+    inmueble: z.number("El ID del inmueble es necesario"),
+    usuario: z.number("El ID del usuario es necesario"),
   }),
   params: z.object().optional(),
   query: z.object({}).optional(),
