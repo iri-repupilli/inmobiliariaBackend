@@ -10,8 +10,16 @@ import { localidadRouter } from './Localidad/localidad.routes.js';
 import { resenaRouter } from './Resena/resena.routes.js';
 import { consultaRouter } from './Consulta/consulta.routes.js';
 
+import cors from 'cors';
 //defino la app
 const app = express();
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 //luego de los middlewares base
@@ -21,7 +29,7 @@ app.use((req, res, next) => {
 //antes de los middlewares del negocio
 //llamada al crud
 app.use('/api/localidades', localidadRouter);
-app.use('/api/usuarios', usuarioRouter)
+app.use('/api/usuarios', usuarioRouter);
 app.use('/api/tiposervicios', tipoServicioRouter);
 app.use('/api/propietarios', propietarioRouter);
 app.use('/api/inmuebles', inmuebleRouter);
@@ -33,7 +41,7 @@ app.use((_, res) => {
   return; //dejar el return vacio o no ponerlo si utilizo express 5.0
 });
 
-await syncSchema(); //solo en desarrollo
+//await syncSchema(); //solo en desarrollo
 
 //defino el puerto por donde va a escuchar
 app.listen(3000, () => {
