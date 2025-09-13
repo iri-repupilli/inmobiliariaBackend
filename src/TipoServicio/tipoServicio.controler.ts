@@ -47,6 +47,10 @@ async function update(req: Request, res: Response) {
     const tipoServicioToUpdate = em.getReference(TipoServicio, id);
     em.assign(tipoServicioToUpdate, req.body);
     await em.flush();
+    res.status(200).json({
+      message: 'actualizado correctamente',
+      data: tipoServicioToUpdate,
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
