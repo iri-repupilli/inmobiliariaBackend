@@ -3,19 +3,19 @@ import { z } from 'zod';
 export const FindOneUsuarioSchema = z.object({
   body: z.object().optional(),
   params: z.object({
-    id: z.string().nonempty(),
+    id: z.string().trim().regex(/^\d+$/, 'El id debe ser un numero entero'),
   }),
   query: z.object().optional(),
 });
 
 export const AddUsuarioSchema = z.object({
   body: z.object({
-    nombre: z.string('Se necesita el nombre').min(1).max(45).nonempty(),
-    apellido: z.string('Se necesita el apellido').min(1).max(45).nonempty(),
-    email: z.email().min(1).max(45).nonempty(),
-    password: z.string('Se necesita la contrasena').min(1).max(45).nonempty(),
-    telefono: z.string('Se necesita el telefono').min(1).max(45).nonempty(),
-    rol: z.string('Se necesita el rol').min(1).max(45).nonempty(),
+    nombre: z.string().trim().min(1, 'El nombre no puede estar vacío').max(45),
+    apellido: z.string().trim().min(1, 'El apellido no puede estar vacío').max(45),
+    email: z.email('El texto debe tener formato de email').trim().max(45),
+    password: z.string().trim().min(8, 'La contraseña debe tener al menos 8 caracteres').max(45),
+    telefono: z.string().trim().regex(/^\d+$/, 'El telefono debe contener solo numeros').max(45),
+    rol: z.string().min(1, 'Se necesita el rol').max(45),
   }),
   params: z.object().optional(),
   query: z.object().optional(),
@@ -23,15 +23,15 @@ export const AddUsuarioSchema = z.object({
 
 export const UpdateUsuarioSchema = z.object({
   body: z.object({
-    nombre: z.string('Se necesita el nombre').min(1).max(45).optional(),
-    apellido: z.string('Se necesita el apellido').min(1).max(45).optional(),
-    email: z.email().min(1).max(45).optional(),
-    password: z.string('Se necesita la contrasena').min(1).max(45).optional(),
-    telefono: z.string('Se necesita el telefono').min(1).max(45).optional(),
-    rol: z.string('Se necesita el rol').min(1).max(45).optional(),
+    nombre: z.string().trim().min(1, 'El nombre no puede estar vacío').max(45).optional(),
+    apellido: z.string().trim().min(1, 'El apellido no puede estar vacío').max(45).optional(),
+    email: z.email('El texto debe tener formato de email').trim().max(45).optional(),
+    password: z.string().trim().min(8, 'La contraseña debe tener al menos 8 caracteres').max(45).optional(),
+    telefono: z.string().trim().regex(/^\d+$/, 'El telefono debe contener solo numeros').max(45).optional(),
+    rol: z.string().min(1, 'Se necesita el rol').max(45).optional(),
   }),
   params: z.object({
-    id: z.string().nonempty().min(1),
+    id: z.string().trim().regex(/^\d+$/, 'El id debe ser un numero entero'),
   }),
   query: z.object().optional(),
 });
@@ -39,7 +39,7 @@ export const UpdateUsuarioSchema = z.object({
 export const RemoveUsuarioSchema = z.object({
   body: z.object().optional(),
   params: z.object({
-    id: z.string().nonempty(),
+    id: z.string().trim().regex(/^\d+$/, 'El id debe ser un numero entero'),
   }),
   query: z.object().optional(),
 });
