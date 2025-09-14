@@ -1,11 +1,6 @@
 import { Router } from 'express';
 import { findAll, findOne, add, update, remove } from './resena.controller.js';
-import {
-  findOneResena,
-  addResena,
-  updateResena,
-  deleteResena,
-} from '../Schemas/resena.schema.js';
+import { findOneResena, addResena, updateResena, deleteResena } from '../Schemas/resena.schema.js';
 import { schemaValidation } from '../MiddleWares/schemaValidator.middleware.js';
 export const resenaRouter = Router();
 

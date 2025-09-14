@@ -1,12 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { orm } from "../shared/db/orm.js";
-import {
-  Casa,
-  Departamento,
-  Cochera,
-  Terreno,
-  Inmueble,
-} from "./inmueble.entity.js";
+import { Request, Response, NextFunction } from 'express';
+import { orm } from '../shared/db/orm.js';
+import { Casa, Departamento, Cochera, Terreno, Inmueble } from './inmueble.entity.js';
 
 // Mapa de tipos a clases
 const tipoClasesMap = {
@@ -89,13 +83,9 @@ const tipoClasesMap = {
 const em = orm.em;
 async function findAll(req: Request, res: Response) {
   try {
-    const inmuebles = await em.find(
-      Inmueble,
-      {},
-      { populate: ["propietario", "tipoServicio", "localidad"] }
-    );
+    const inmuebles = await em.find(Inmueble, {}, { populate: ['propietario', 'tipoServicio', 'localidad'] });
     res.status(200).json({
-      message: "se encontraron todos los inmuebles",
+      message: 'se encontraron todos los inmuebles',
       data: inmuebles,
     });
   } catch (error: any) {
@@ -109,11 +99,9 @@ async function findOne(req: Request, res: Response) {
     const inmueble = await em.findOneOrFail(
       Inmueble,
       { id },
-      { populate: ["propietario", "tipoServicio", "localidad"] }
+      { populate: ['propietario', 'tipoServicio', 'localidad'] }
     );
-    res
-      .status(200)
-      .json({ message: "se encontró el inmueble", data: inmueble });
+    res.status(200).json({ message: 'se encontró el inmueble', data: inmueble });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -146,7 +134,7 @@ async function update(req: Request, res: Response) {
     // const inmueble = em.getReference(Inmueble, id);
     em.assign(inmuebleToUpdate, req.body);
     await em.flush();
-    res.status(200).json({ message: "inmueble actualizado correctamente" });
+    res.status(200).json({ message: 'inmueble actualizado correctamente' });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -158,7 +146,7 @@ async function remove(req: Request, res: Response) {
     const inmueble = em.getReference(Inmueble, id);
     await em.removeAndFlush(inmueble);
     res.status(200).json({
-      message: "inmueble eliminado correctamente",
+      message: 'inmueble eliminado correctamente',
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message });

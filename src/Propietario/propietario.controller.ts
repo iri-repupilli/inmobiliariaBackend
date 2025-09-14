@@ -7,11 +7,9 @@ const em = orm.em;
 async function findAll(req: Request, res: Response) {
   try {
     const propietarios = await em.find(Propietario, {});
-    res
-      .status(200)
-      .json({ message: 'Found all propietarios', data: propietarios });
+    res.status(200).json({ message: 'Found all propietarios', data: propietarios });
   } catch (error: any) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: error.message });
   }
 }
 
@@ -28,22 +26,22 @@ async function findOne(req: Request, res: Response) {
 async function add(req: Request, res: Response) {
   try {
     const propietario = em.create(Propietario, req.body);
-    await em.flush();
+    await em.persistAndFlush(propietario);
     res.status(201).json({ message: 'Propietary created', data: propietario });
   } catch (error: any) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: error.message });
   }
 }
 
 async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const propietario = em.getReference(Propietario, id);
+    const propietario = await em.findOneOrFail(Propietario, id);
     em.assign(propietario, req.body);
     await em.flush();
     res.status(200).json({ message: 'Propietary updated', data: propietario });
   } catch (error: any) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: error.message });
   }
 }
 
@@ -54,7 +52,7 @@ async function remove(req: Request, res: Response) {
     await em.removeAndFlush(propietario);
     res.status(200).json({ message: 'Propietary deleted' });
   } catch (error: any) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: error.message });
   }
 }
 

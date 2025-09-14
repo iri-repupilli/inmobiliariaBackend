@@ -1,6 +1,6 @@
-import { MikroORM } from "@mikro-orm/core";
-import { MySqlDriver } from "@mikro-orm/mysql";
-import { SqlHighlighter} from "@mikro-orm/sql-highlighter";
+import { MikroORM } from '@mikro-orm/core';
+import { MySqlDriver } from '@mikro-orm/mysql';
+import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 
 export const orm = await MikroORM.init({
   //indicara como encontrar los archivos de entidades
@@ -12,11 +12,12 @@ export const orm = await MikroORM.init({
   clientUrl: 'mysql://dsw:dsw@localhost:3306/inmobiliaria',
   highlighter: new SqlHighlighter(),
   debug: true,
-  schemaGenerator: {//never in production
+  schemaGenerator: {
+    //never in production
     disableForeignKeys: true, //para que no falle al crear la base de datos
     createForeignKeyConstraints: true,
     ignoreSchema: [],
-  }
+  },
 });
 
 export const syncSchema = async () => {
@@ -26,4 +27,4 @@ export const syncSchema = async () => {
   await generator.createSchema(); //crea db
   */
   await generator.updateSchema();
-}
+};

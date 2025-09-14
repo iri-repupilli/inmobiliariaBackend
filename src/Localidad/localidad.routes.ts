@@ -1,11 +1,5 @@
 import { Router } from 'express';
-import {
-  findAll,
-  findOne,
-  add,
-  update,
-  remove,
-} from './localidad.controler.js';
+import { findAll, findOne, add, update, remove } from './localidad.controller.js';
 import { schemaValidation } from '../MiddleWares/schemaValidator.middleware.js';
 import {
   AddLocalidadSchema,

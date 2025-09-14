@@ -9,26 +9,72 @@ Content-Type: application/json
 {
     "mtrs": 20,
     "descripcion": "Iluminado",
-    "antiguedad":15,
+    "direccionCalle": "San martin",
+    "direccionNumero": "345",
+    "fechaConstruccion": "2005-03-25",
     "fechaPublicacion": "2025-08-01",
     "requisitos": "recibo de sueldo",
     "propietario": 1,
     "tipoServicio": 1,
     "localidad": 1,
+    "piso": "4",
+    "depto": "b",
     "cantAmbientes": 3,
     "cantBanios": 1,
     "balcon": true,
     "tipo": "departamento"
 }
 
-###ID
-@id = {{crearInmueble.response.body.data.id}}
+### POST 2
+# @name crearInmueble2
+POST http://localhost:3000/api/inmuebles
+Content-Type: application/json
+
+{
+    "mtrs": 50,
+    "descripcion": "Cerca de UTN",
+    "direccionCalle": "Sarmiento",
+    "direccionNumero": "1445",
+    "fechaConstruccion": "2012-03-04",
+    "fechaPublicacion": "2025-06-28",
+    "requisitos": "recibo de sueldo",
+    "propietario": 1,
+    "tipoServicio": 2,
+    "localidad": 1,
+    "cantAmbientes": 3,
+    "cantBanios": 1,
+    "pileta": true,
+    "patio": true, 
+    "tipo": "casa"
+}
+
+### POST
+# @name crearInmueble3
+POST http://localhost:3000/api/inmuebles
+Content-Type: application/json
+
+{
+    "mtrs": 100,
+    "descripcion": "Espacioso",
+    "direccionCalle": "San Juan",
+    "direccionNumero": "2500",
+    "fechaConstruccion": "2017-11-04",
+    "fechaPublicacion": "2025-07-21",
+    "requisitos": "recibo de sueldo",
+    "propietario": 2,
+    "tipoServicio": 2,
+    "localidad": 1,
+    "tipoVehiculo": "auto",
+    "techo": true, 
+    "tipo": "cochera"
+}
+
 
 ### GET ONE
-GET http://localhost:3000/api/inmuebles/{{id}}
+GET http://localhost:3000/api/inmuebles/1
 
 ### PUT
-PUT http://localhost:3000/api/inmuebles/{{id}}
+PUT http://localhost:3000/api/inmuebles/1
 Content-Type: application/json
 
 {
@@ -44,48 +90,7 @@ Content-Type: application/json
     "tipo": "departamento"
 }
 
-### POST 2
-POST http://localhost:3000/api/inmuebles
-Content-Type: application/json
-
-{
-    "mtrs": "50",
-    "descripcion": "Cerca de UTN",
-    "antiguedad":0,
-    "fechaPublicacion": "2025-06-28",
-    "requisitos": "recibo de sueldo",
-    "propietario": 2,
-    "tipoServicio": 2,
-    "localidad": 1,
-    "cantAmbientes": 3,
-    "cantBanios": 1,
-    "pileta": true,
-    "patio": true, 
-    "tipo": "casa"
-}
-
-### POST
-# @name crearInmuebleParaBorrar
-POST http://localhost:3000/api/inmuebles
-Content-Type: application/json
-
-{
-    "mtrs": "100",
-    "descripcion": "Espacioso",
-    "antiguedad":15,
-    "fechaPublicacion": "2025-07-21",
-    "requisitos": "recibo de sueldo",
-    "propietario": 2,
-    "tipoServicio": 2,
-    "localidad": 1,
-    "tipoVehiculo": "auto",
-    "techo": true, 
-    "tipo": "cochera"
-}
-
 ### DELETE
-@idABorrar = {{crearInmuebleParaBorrar.response.body.data.id}}
-
-DELETE http://localhost:3000/api/inmuebles/{{idABorrar}}
+DELETE http://localhost:3000/api/inmuebles/1
 
 

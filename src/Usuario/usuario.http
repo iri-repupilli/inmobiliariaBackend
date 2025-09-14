@@ -10,32 +10,13 @@ Content-Type: application/json
   "nombre": "Cesar",
   "apellido": "Repupilli",
   "email": "cibercesar6@hotmail.com",
-  "password": "123456",
+  "password": "12345678",
   "telefono": "3364574777",
   "rol": "ADMIN"
 }
 
-###ID
-@id = {{createUsuario.response.body.data.id}}
-
-###Find one
-GET http://localhost:3000/api/usuarios/{{id}}
-
-###Update complete
-PUT http://localhost:3000/api/usuarios/{{id}}
-Content-Type: application/json
-
-{
-  "nombre": "Cesar",
-  "apellido": "Repupilli",
-  "email": "cesar@hotmail.com",
-  "password": "123456",
-  "telefono": "3364574777",
-  "rol": "ADMIN"
-}
-
-###addToDelete
-# @name createUsuarioToDelete
+###
+# @name createUsuario2
 POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
@@ -43,13 +24,27 @@ Content-Type: application/json
   "nombre": "Viviana",
   "apellido": "Ziros",
   "email": "viviziros@hotmail.com",
-  "password": "123456",
+  "password": "12345655",
   "telefono": "3364574777",
   "rol": "USER"
 }
 
-###ID to delete
-@idToDelete = {{createUsuarioToDelete.response.body.data.id}}
+###Find one
+GET http://localhost:3000/api/usuarios/1
+
+###Update complete
+PUT http://localhost:3000/api/usuarios/1
+Content-Type: application/json
+
+{
+  "nombre": "Anibal",
+  "apellido": "Nuñez",
+  "email": "anibalNunez@gmail.com",
+  "password": "1234564444",
+  "telefono": "3364574777",
+  "rol": "ADMIN"
+}
+
 
 ###Delete
-DELETE http://localhost:3000/api/usuarios/{{idToDelete}}
+DELETE http://localhost:3000/api/usuarios/1

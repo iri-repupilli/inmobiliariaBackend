@@ -5,7 +5,7 @@ import {
   RemoveUsuarioSchema,
   UpdateUsuarioSchema,
 } from '../Schemas/usuario.schema.js';
-import { findAll, findOne, add, update, remove } from './usuario.controler.js';
+import { findAll, findOne, add, update, remove } from './usuario.controller.js';
 import { Router } from 'express';
 
 const usuarioRouter = Router();

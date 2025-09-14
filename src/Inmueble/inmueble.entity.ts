@@ -1,18 +1,11 @@
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
-import {
-  Entity,
-  Property,
-  ManyToOne,
-  Rel,
-  OneToMany,
-  Cascade,
-  Collection,
-} from '@mikro-orm/core';
+import { Entity, Property, ManyToOne, Rel, OneToMany, Cascade, Collection } from '@mikro-orm/core';
 import { Propietario } from '../Propietario/propietario.entity.js';
 import { TipoServicio } from '../TipoServicio/tipoServicio.entity.js';
 import { Resena } from '../Resena/resena.entity.js';
 import { Consulta } from '../Consulta/consulta.entity.js';
 import { Localidad } from '../Localidad/localidad.entity.js';
+import { property } from 'zod';
 
 @Entity({
   discriminatorColumn: 'tipo',
@@ -27,13 +20,17 @@ import { Localidad } from '../Localidad/localidad.entity.js';
 export abstract class Inmueble extends BaseEntity {
   @Property({ nullable: false })
   mtrs!: number;
-  @Property({ nullable: false })
+  @Property({ nullable: false, length: 45 })
   descripcion!: string;
-  @Property({ nullable: false })
-  antiguedad!: number;
+  @Property({ nullable: false, length: 45 })
+  direccionCalle!: string;
+  @Property({ nullable: false, length: 45 })
+  direccionNumero!: string;
+  @Property({ nullable: false, type: 'date' })
+  fechaConstruccion!: Date;
   @Property({ nullable: false, type: 'date' })
   fechaPublicacion!: Date;
-  @Property({ nullable: false })
+  @Property({ nullable: false, length: 45 })
   requisitos!: string;
   @ManyToOne(() => Propietario, { nullable: false })
   propietario!: Rel<Propietario>;
@@ -68,6 +65,12 @@ export class Casa extends Inmueble {
 
 @Entity()
 export class Departamento extends Inmueble {
+  @Property({ nullable: true, length: 45 })
+  piso!: string;
+
+  @Property({ nullable: true, length: 45 })
+  depto!: string;
+
   @Property({ nullable: true })
   cantAmbientes!: number;
 
@@ -83,7 +86,7 @@ export class Cochera extends Inmueble {
   @Property({ nullable: true })
   techo!: boolean;
 
-  @Property({ nullable: true })
+  @Property({ nullable: true, length: 45 })
   tipoVehiculo!: string;
 }
 
@@ -102,6 +105,6 @@ export class Terreno extends Inmueble {
   nroParcela!: number;
 
   //'residencial', 'comercial', 'industrial', 'mixta'
-  @Property({ nullable: true })
+  @Property({ nullable: true, length: 45 })
   zonificacion!: string;
 }

@@ -13,36 +13,8 @@ Content-Type: application/json
   "telefonoPropietario": "3364574777"
 }
 
-###ID
-@id = {{createPropietario.response.body.data.id}}
-
-###Obtener un propietario
-GET http://localhost:3000/api/propietarios/{{id}}
-
-
-###Modificar un propietario, completo
-PUT http://localhost:3000/api/propietarios/{{id}}
-Content-Type: application/json
-
-{
-  "nombrePropietario": "Viviana",
-  "apellidoPropietario": "Ziros",
-  "mailPropietario": "viviziros@gmail.com",
-  "telefonoPropietario": "3364574777"
-}
-
-###Modi parcial
-PATCH http://localhost:3000/api/propietarios/a02b91bc-3769-4221-beb1-d7a3aeba7dad
-Content-Type: application/json
-
-{
-  "nombrePropietario": "Bianca",
-  "apellidoPropietario": "Repupilli",
-  "telefonoPropietario": "3364574777"
-}
-
-###Agregar un propietarios
-# @name createPropietarioToDelete
+###
+# @name createPropietario2
 POST http://localhost:3000/api/propietarios
 Content-Type: application/json
 
@@ -53,9 +25,32 @@ Content-Type: application/json
   "telefonoPropietario": "12345678"
 }
 
-###ID
-@idToDelete = {{createPropietarioToDelete.response.body.data.id}}
+###Obtener un propietario
+GET http://localhost:3000/api/propietarios/1
+
+
+###Modificar un propietario, completo
+PUT http://localhost:3000/api/propietarios/1
+Content-Type: application/json
+
+{
+  "nombrePropietario": "Viviana",
+  "apellidoPropietario": "Ziros",
+  "mailPropietario": "viviziros@gmail.com",
+  "telefonoPropietario": "3364574777"
+}
+
+###Modi parcial
+PATCH http://localhost:3000/api/propietarios/2
+Content-Type: application/json
+
+{
+  "nombrePropietario": "Bianca",
+  "apellidoPropietario": "Repupilli",
+  "telefonoPropietario": "5564574777"
+}
+
 
 ###Borrar un propietario
-DELETE http://localhost:3000/api/propietarios/{{idToDelete}}
+DELETE http://localhost:3000/api/propietarios/9
 

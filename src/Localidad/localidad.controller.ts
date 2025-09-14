@@ -26,18 +26,18 @@ async function add(req: Request, res: Response) {
   try {
     const localidad = em.create(Localidad, req.body);
     await em.persistAndFlush(localidad);
-    res
-      .status(201)
-      .json({ message: 'Localidad added successfully', data: localidad });
+    res.status(201).json({ message: 'Localidad added successfully', data: localidad });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 }
 async function update(req: Request, res: Response) {
   try {
-    const id = Number.parseInt(req.params.codPostal);
-    const localidad = em.getReference(Localidad, id);
+    const id = Number.parseInt(req.params.id);
+    const localidad = await em.findOneOrFail(Localidad, id);
     em.assign(localidad, req.body);
+    await em.flush();
+    res.status(200).json({ message: 'Localidad updated', data: localidad });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

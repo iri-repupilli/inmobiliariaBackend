@@ -41,7 +41,7 @@ app.use((_, res) => {
   return; //dejar el return vacio o no ponerlo si utilizo express 5.0
 });
 
-//await syncSchema(); //solo en desarrollo
+await syncSchema(); //solo en desarrollo
 
 //defino el puerto por donde va a escuchar
 app.listen(3000, () => {
