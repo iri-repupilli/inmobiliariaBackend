@@ -25,6 +25,11 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    const email = req.body.email;
+    const existeUsuario = await em.findOne(Usuario, { email });
+    if (existeUsuario) {
+      return res.status(400).json({ message: 'El mail ya esta registrado' });
+    }
     const usuario = em.create(Usuario, req.body);
     await em.persistAndFlush(usuario);
     res.status(201).json({ message: 'Usuario created', data: usuario });
