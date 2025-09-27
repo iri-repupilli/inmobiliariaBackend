@@ -81,9 +81,20 @@ const tipoClasesMap = {
 */
 
 const em = orm.em;
+
 async function findAll(req: Request, res: Response) {
   try {
-    const inmuebles = await em.find(Inmueble, {}, { populate: ['propietario', 'tipoServicio', 'localidad'] });
+    const tipo = (req.query.tipo || '').toString().trim();
+    const calle = (req.query.calle || '').toString().trim();
+
+    const where: any = {};
+    if (tipo) where.tipo = tipo;
+    if (calle) where.direccionCalle = { $like: `%${calle}%` }; // MySQL LIKE
+
+    const inmuebles = await em.find(Inmueble, where, {
+      populate: ['propietario', 'tipoServicio', 'localidad'],
+    });
+
     res.status(200).json({
       message: 'se encontraron todos los inmuebles',
       data: inmuebles,
