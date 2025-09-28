@@ -16,7 +16,6 @@ import { property } from 'zod';
     terreno: 'Terreno',
   },
 })
-@Entity()
 export abstract class Inmueble extends BaseEntity {
   @Property({ nullable: false })
   mtrs!: number;
@@ -25,13 +24,13 @@ export abstract class Inmueble extends BaseEntity {
   @Property({ nullable: false, length: 45 })
   direccionCalle!: string;
   @Property({ nullable: false, length: 45 })
-  direccionNumero!: string;
+  direccionNumero!: number;
   @Property({ nullable: false, type: 'date' })
   fechaConstruccion!: Date;
   @Property({ nullable: false, type: 'date' })
   fechaPublicacion!: Date;
-  @Property({ nullable: false, length: 45 })
-  requisitos!: string;
+  @Property({ nullable: true, length: 45 })
+  requisitos?: string;
   @ManyToOne(() => Propietario, { nullable: false })
   propietario!: Rel<Propietario>;
   @ManyToOne(() => TipoServicio, { nullable: false })
@@ -50,58 +49,49 @@ export abstract class Inmueble extends BaseEntity {
 
 @Entity()
 export class Casa extends Inmueble {
-  @Property({ nullable: true })
+  @Property({ nullable: false })
   cantAmbientes!: number;
 
-  @Property({ nullable: true })
+  @Property({ nullable: false })
   cantBanios!: number;
 
-  @Property({ nullable: true })
+  @Property({ nullable: false })
   patio!: boolean;
 
-  @Property({ nullable: true })
+  @Property({ nullable: false })
   pileta!: boolean;
 }
 
 @Entity()
 export class Departamento extends Inmueble {
-  @Property({ nullable: true, length: 45 })
-  piso!: string;
+  @Property({ nullable: false , length: 45 })
+  piso!: number
 
   @Property({ nullable: true, length: 45 })
   depto!: string;
 
-  @Property({ nullable: true })
+  @Property({ nullable: false })
   cantAmbientes!: number;
 
-  @Property({ nullable: true })
+  @Property({ nullable: false })
   cantBanios!: number;
 
-  @Property({ nullable: true })
+  @Property({ nullable: false })
   balcon!: boolean;
 }
 
 @Entity()
 export class Cochera extends Inmueble {
-  @Property({ nullable: true })
+  @Property({ nullable: false })
   techo!: boolean;
 
-  @Property({ nullable: true, length: 45 })
+  @Property({ nullable: false, length: 45 })
   tipoVehiculo!: string;
 }
 
 @Entity()
 export class Terreno extends Inmueble {
-  @Property({ nullable: true })
-  ancho!: number;
-
-  @Property({ nullable: true })
-  largo!: number;
-
-  @Property({ nullable: true })
-  superficieTotal!: number;
-
-  @Property({ nullable: true })
+  @Property({ nullable: false })
   nroParcela!: number;
 
   //'residencial', 'comercial', 'industrial', 'mixta'
