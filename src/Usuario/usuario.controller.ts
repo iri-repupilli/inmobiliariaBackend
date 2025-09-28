@@ -60,4 +60,21 @@ async function remove(req: Request, res: Response) {
     res.status(500).json({ message: error.message });
   }
 }
-export { findAll, findOne, add, update, remove };
+
+async function loginUsuario(req: Request, res: Response) {
+  try {
+    const { email, password } = req.body;
+    const usuario = await em.findOneOrFail(Usuario, { email });
+    if (usuario.password !== password) {
+      return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
+    }
+    res.status(200).json({
+      message: 'Login exitoso',
+      data: { id: usuario.id, nombre: usuario.nombre, email: usuario.email, rol: usuario.rol },
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Usuario o contraseña incorrectos' });
+  }
+}
+
+export { findAll, findOne, add, update, remove, loginUsuario };
