@@ -12,7 +12,7 @@ Content-Type: application/json
   "email": "cibercesar6@hotmail.com",
   "password": "12345678",
   "telefono": "3364574777",
-  "rol": "ADMIN"
+  "rol": "admin"
 }
 
 ###
@@ -26,7 +26,7 @@ Content-Type: application/json
   "email": "viviziros@hotmail.com",
   "password": "12345655",
   "telefono": "3364574777",
-  "rol": "USER"
+  "rol": "user"
 }
 
 ###Find one
@@ -42,9 +42,9 @@ Content-Type: application/json
   "email": "anibalNunez@gmail.com",
   "password": "1234564444",
   "telefono": "3364574777",
-  "rol": "ADMIN"
+  "rol": "admin"
 }
 
 
 ###Delete
-DELETE http://localhost:3000/api/usuarios/1
+DELETE http://localhost:3000/api/usuarios/2
