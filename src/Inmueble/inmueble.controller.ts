@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { orm } from '../shared/db/orm.js';
-import { Casa, Departamento, Cochera, Terreno, Inmueble } from './inmueble.entity.js';
+import {
+  Casa,
+  Departamento,
+  Cochera,
+  Terreno,
+  Inmueble,
+} from './inmueble.entity.js';
 
 // Mapa de tipos a clases
 const tipoClasesMap = {
@@ -86,10 +92,11 @@ async function findAll(req: Request, res: Response) {
   try {
     const tipo = (req.query.tipo || '').toString().trim();
     const calle = (req.query.calle || '').toString().trim();
-
+    const localidad = (req.query.localidad || '').toString().trim();
     const where: any = {};
     if (tipo) where.tipo = tipo;
     if (calle) where.direccionCalle = { $like: `%${calle}%` }; // MySQL LIKE
+    if (localidad) where.localidad = localidad;
 
     const inmuebles = await em.find(Inmueble, where, {
       populate: ['propietario', 'tipoServicio', 'localidad'],
@@ -112,7 +119,9 @@ async function findOne(req: Request, res: Response) {
       { id },
       { populate: ['propietario', 'tipoServicio', 'localidad'] }
     );
-    res.status(200).json({ message: 'se encontró el inmueble', data: inmueble });
+    res
+      .status(200)
+      .json({ message: 'se encontró el inmueble', data: inmueble });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
