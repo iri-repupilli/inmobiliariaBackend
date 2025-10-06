@@ -77,15 +77,28 @@ export const addInmuebleSchema = z.object({
   query: z.object({}).optional(),
 });
 
-// UPDATE: igual que add pero todos los campos opcionales
-const baseUpdate = Object.fromEntries( 
-  Object.entries(baseInmueble).map(([k, v]) => [k, (v as any).optional()]) 
-  // esto supuestamente sirve para que todos los campos  de baseinmueble tengan .optional() sin tener 
-  // que escribir uno por uno pero es lo mismo literal.
-);
+
+const baseUpdate = {
+  mtrs: z.number().nonnegative().optional(),
+  descripcion: z.string().trim().min(1).max(45).optional(),
+  direccionCalle: z.string().trim().min(1).max(45).optional(),
+  direccionNumero: z.number().nonnegative().optional(),
+  fechaConstruccion: z.union([
+    z.string().transform((str) => new Date(str)),
+    z.date()
+  ]).optional(),
+  fechaPublicacion: z.union([
+    z.string().transform((str) => new Date(str)),
+    z.date()
+  ]).optional(),
+  requisitos: z.string().trim().min(1).max(45).optional(),
+  propietario: z.number().nonnegative().optional(),
+  tipoServicio: z.number().nonnegative().optional(),
+  localidad: z.number().nonnegative().optional(),
+};
 
 const casaUpdateSchema = z.object({
-  tipo: z.literal('casa').optional(),
+  tipo: z.literal('casa'),
   ...baseUpdate,
   cantAmbientes: z.number().nonnegative().optional(),
   cantBanios: z.number().nonnegative().optional(),
@@ -94,9 +107,9 @@ const casaUpdateSchema = z.object({
 });
 
 const departamentoUpdateSchema = z.object({
-  tipo: z.literal('departamento').optional(),
+  tipo: z.literal('departamento'),
   ...baseUpdate,
-  piso: z.number().nonnegative(),
+  piso: z.number().nonnegative().optional(),
   depto: z.string().trim().min(1).max(45).optional(),
   cantAmbientes: z.number().nonnegative().optional(),
   cantBanios: z.number().nonnegative().optional(),
@@ -104,14 +117,14 @@ const departamentoUpdateSchema = z.object({
 });
 
 const cocheraUpdateSchema = z.object({
-  tipo: z.literal('cochera').optional(),
+  tipo: z.literal('cochera'),
   ...baseUpdate,
   techo: z.boolean().optional(),
   tipoVehiculo: z.string().trim().min(1).max(45).optional(),
 });
 
 const terrenoUpdateSchema = z.object({
-  tipo: z.literal('terreno').optional(),
+  tipo: z.literal('terreno'),
   ...baseUpdate,
   nroParcela: z.number().optional(),
   zonificacion: z.string().trim().min(1).max(45).optional(),

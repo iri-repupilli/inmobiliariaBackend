@@ -17,6 +17,7 @@ import { property } from 'zod';
   },
 })
 export abstract class Inmueble extends BaseEntity {
+  
   @Property({ nullable: false })
   mtrs!: number;
   @Property({ nullable: false, length: 45 })

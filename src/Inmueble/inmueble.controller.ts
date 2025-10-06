@@ -121,16 +121,16 @@ async function findOne(req: Request, res: Response) {
       { id },
       { populate: ['propietario', 'tipoServicio', 'localidad'] }
     );
-<<<<<<< HEAD
-   const tipoValor = inmueble.constructor.name.toLowerCase();
-   console.log('instancia:', inmueble.constructor.name);
 
-   res.status(200).json({ message: 'se encontró el inmueble', data: { ...(inmueble as any), tipo: tipoValor } });
-=======
+    const inmueblePlain = { 
+      ...(inmueble as any), 
+      tipo: inmueble.constructor.name.toLowerCase() 
+    };
+
     res
       .status(200)
-      .json({ message: 'se encontró el inmueble', data: inmueble });
->>>>>>> c258059ba70cb6af980eb7fe50c08bb55c4a89af
+      .json({ message: 'se encontró el inmueble', data: inmueblePlain });
+      
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -157,17 +157,17 @@ async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
     const tipo = req.body.tipo;
-    // buscar por la entidad base para no romper si no llega `body.tipo`
     const inmuebleToUpdate = await em.findOneOrFail(Inmueble, { id });
-    // const inmueble = em.getReference(Inmueble, id);
     em.assign(inmuebleToUpdate, req.body);
     await em.flush();
     res.status(200).json({ message: 'inmueble actualizado correctamente' });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    console.error('ERROR COMPLETO:', error);           // <- AGREGA
+    console.error('Error message:', error.message);    // <- AGREGA
+    console.error('Error stack:', error.stack);        // <- AGREGA
+    res.status(500).json({ message: error.message || 'Internal server error' });
   }
 }
-
 async function remove(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
