@@ -17,11 +17,12 @@ import { property } from 'zod';
   },
 })
 export abstract class Inmueble extends BaseEntity {
-  
   @Property({ nullable: false })
   mtrs!: number;
   @Property({ nullable: false, length: 45 })
   descripcion!: string;
+  @Property({ nullable: false, length: 45 })
+  precioDolar!: number;
   @Property({ nullable: false, length: 45 })
   direccionCalle!: string;
   @Property({ nullable: false, length: 45 })
@@ -70,6 +71,9 @@ export class Departamento extends Inmueble {
 
   @Property({ nullable: true, length: 45 })
   depto!: string;
+
+  @Property({ nullable: false, length: 45 })
+  precioExpensas!: number;
 
   @Property({ nullable: false })
   cantAmbientes!: number;

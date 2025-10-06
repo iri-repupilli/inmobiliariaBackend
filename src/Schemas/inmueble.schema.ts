@@ -12,6 +12,7 @@ export const findOneInmuebleSchema = z.object({
 const baseInmueble = {
   mtrs: z.number('Los metros deben ser un numero entero').nonnegative(),
   descripcion: z.string().trim().min(1, 'La descripción no puede estar vacía').max(45),
+  precioDolar:z.number('numero necesario').nonnegative(),
   direccionCalle: z.string().trim().min(1, 'La calle no puede estar vacia').max(45),
   direccionNumero: z.number('numero necesario').nonnegative(),
   fechaConstruccion: z
@@ -47,6 +48,7 @@ const departamentoSchema = z.object({
   ...baseInmueble,
   piso: z.number().nonnegative(),
   depto: z.string().trim().min(1).max(45),
+  precioExpensas: z.number().nonnegative(),
   cantAmbientes: z.number().nonnegative(),
   cantBanios: z.number().nonnegative(),
   balcon: z.boolean(),
@@ -81,6 +83,7 @@ export const addInmuebleSchema = z.object({
 const baseUpdate = {
   mtrs: z.number().nonnegative().optional(),
   descripcion: z.string().trim().min(1).max(45).optional(),
+  precioDolar:z.number('numero necesario').nonnegative().optional(),
   direccionCalle: z.string().trim().min(1).max(45).optional(),
   direccionNumero: z.number().nonnegative().optional(),
   fechaConstruccion: z.union([
@@ -111,6 +114,7 @@ const departamentoUpdateSchema = z.object({
   ...baseUpdate,
   piso: z.number().nonnegative().optional(),
   depto: z.string().trim().min(1).max(45).optional(),
+  precioExpensas: z.number().nonnegative().optional(),
   cantAmbientes: z.number().nonnegative().optional(),
   cantBanios: z.number().nonnegative().optional(),
   balcon: z.boolean().optional(),

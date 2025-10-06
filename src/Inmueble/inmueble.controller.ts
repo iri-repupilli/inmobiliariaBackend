@@ -93,10 +93,23 @@ async function findAll(req: Request, res: Response) {
    const tipo = (req.query.tipo || '').toString().trim().toLowerCase();
     const calle = (req.query.calle || '').toString().trim();
     const localidad = (req.query.localidad || '').toString().trim();
+    const precioDolar = (req.query.precioDolar || '').toString().trim();
     const where: any = {};
     if (tipo) where.tipo = tipo;
     if (calle) where.direccionCalle = { $like: `%${calle}%` }; // MySQL LIKE
     if (localidad) where.localidad = localidad;
+    if (precioDolar) {
+      if (precioDolar === '0-50000') {
+        where.precioDolar = { $lte: 50000 };
+      } else if (precioDolar === '50000-100000') {
+        //el $gte es mayor o igual que y el $lte menor o igual que. Porque tuve problemas sino tengo que bsucar por precio exacto.
+        where.precioDolar = { $gte: 50000, $lte: 100000 };
+      } else if (precioDolar === '100000-200000') {
+        where.precioDolar = { $gte: 100000, $lte: 200000 };
+      } else if (precioDolar === '200000+') {
+        where.precioDolar = { $gte: 200000 };
+      }
+    }
 
     const inmuebles = await em.find(Inmueble, where, {
       populate: ['propietario', 'tipoServicio', 'localidad'],
