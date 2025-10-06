@@ -84,7 +84,7 @@ const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
   try {
-    const tipo = (req.query.tipo || '').toString().trim();
+   const tipo = (req.query.tipo || '').toString().trim().toLowerCase();
     const calle = (req.query.calle || '').toString().trim();
 
     const where: any = {};
@@ -94,10 +94,12 @@ async function findAll(req: Request, res: Response) {
     const inmuebles = await em.find(Inmueble, where, {
       populate: ['propietario', 'tipoServicio', 'localidad'],
     });
+    const inmueblesPlain = inmuebles.map(i => ({ ...(i as any), tipo: i.constructor.name.toLowerCase() }));
+    console.log('instancia:', inmuebles.constructor.name);
 
     res.status(200).json({
       message: 'se encontraron todos los inmuebles',
-      data: inmuebles,
+      data: inmueblesPlain,
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -112,7 +114,10 @@ async function findOne(req: Request, res: Response) {
       { id },
       { populate: ['propietario', 'tipoServicio', 'localidad'] }
     );
-    res.status(200).json({ message: 'se encontró el inmueble', data: inmueble });
+   const tipoValor = inmueble.constructor.name.toLowerCase();
+   console.log('instancia:', inmueble.constructor.name);
+
+   res.status(200).json({ message: 'se encontró el inmueble', data: { ...(inmueble as any), tipo: tipoValor } });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -139,9 +144,8 @@ async function update(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
     const tipo = req.body.tipo;
-    const ClaseInmueble = tipoClasesMap[tipo as keyof typeof tipoClasesMap];
-
-    const inmuebleToUpdate = await em.findOneOrFail(ClaseInmueble, { id });
+    // buscar por la entidad base para no romper si no llega `body.tipo`
+    const inmuebleToUpdate = await em.findOneOrFail(Inmueble, { id });
     // const inmueble = em.getReference(Inmueble, id);
     em.assign(inmuebleToUpdate, req.body);
     await em.flush();
