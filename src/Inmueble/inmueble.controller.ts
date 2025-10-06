@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { orm } from '../shared/db/orm.js';
-import { Casa, Departamento, Cochera, Terreno, Inmueble } from './inmueble.entity.js';
+import {
+  Casa,
+  Departamento,
+  Cochera,
+  Terreno,
+  Inmueble,
+} from './inmueble.entity.js';
 
 // Mapa de tipos a clases
 const tipoClasesMap = {
@@ -86,10 +92,11 @@ async function findAll(req: Request, res: Response) {
   try {
    const tipo = (req.query.tipo || '').toString().trim().toLowerCase();
     const calle = (req.query.calle || '').toString().trim();
-
+    const localidad = (req.query.localidad || '').toString().trim();
     const where: any = {};
     if (tipo) where.tipo = tipo;
     if (calle) where.direccionCalle = { $like: `%${calle}%` }; // MySQL LIKE
+    if (localidad) where.localidad = localidad;
 
     const inmuebles = await em.find(Inmueble, where, {
       populate: ['propietario', 'tipoServicio', 'localidad'],
@@ -114,10 +121,16 @@ async function findOne(req: Request, res: Response) {
       { id },
       { populate: ['propietario', 'tipoServicio', 'localidad'] }
     );
+<<<<<<< HEAD
    const tipoValor = inmueble.constructor.name.toLowerCase();
    console.log('instancia:', inmueble.constructor.name);
 
    res.status(200).json({ message: 'se encontró el inmueble', data: { ...(inmueble as any), tipo: tipoValor } });
+=======
+    res
+      .status(200)
+      .json({ message: 'se encontró el inmueble', data: inmueble });
+>>>>>>> c258059ba70cb6af980eb7fe50c08bb55c4a89af
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
