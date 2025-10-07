@@ -40,6 +40,11 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
+    const email = req.body.email;
+    const existeUsuario = await em.findOne(Usuario, { email });
+    if (existeUsuario && existeUsuario.id !== Number.parseInt(req.params.id)) {
+      return res.status(400).json({ message: 'El mail ya esta registrado' });
+    }
     const id = Number.parseInt(req.params.id);
     const usuario = await em.findOneOrFail(Usuario, { id });
     em.assign(usuario, req.body);
