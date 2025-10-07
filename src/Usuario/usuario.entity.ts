@@ -1,7 +1,13 @@
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
-import { Entity, Property, OneToMany, Cascade, Collection } from '@mikro-orm/core';
+import {
+  Entity,
+  Property,
+  OneToMany,
+  Cascade,
+  Collection,
+} from '@mikro-orm/core';
 import { Resena } from '../Resena/resena.entity.js';
-import { Consulta } from '../Consulta/consulta.entity.js';
+import { Visita } from '../Visita/visita.entity.js';
 @Entity()
 export class Usuario extends BaseEntity {
   @Property({ nullable: false, length: 45 })
@@ -20,8 +26,8 @@ export class Usuario extends BaseEntity {
     cascade: [Cascade.ALL],
   })
   resenas = new Collection<Resena>(this);
-  @OneToMany(() => Consulta, (consulta) => consulta.usuario, {
+  @OneToMany(() => Visita, (visita) => visita.usuario, {
     cascade: [Cascade.ALL],
   })
-  consultas = new Collection<Consulta>(this);
+  Visitas = new Collection<Visita>(this);
 }

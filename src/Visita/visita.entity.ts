@@ -4,7 +4,7 @@ import { Usuario } from '../Usuario/usuario.entity.js';
 import { Inmueble } from '../Inmueble/inmueble.entity.js';
 
 @Entity()
-export class Consulta extends BaseEntity {
+export class Visita extends BaseEntity {
   @ManyToOne(() => Inmueble, { nullable: false })
   inmueble!: Rel<Inmueble>;
 
@@ -12,8 +12,17 @@ export class Consulta extends BaseEntity {
   usuario!: Rel<Usuario>;
 
   @Property({ type: 'date', nullable: false })
-  dateconsulta!: Date;
+  datevisita!: Date;
+  @Property({
+    nullable: false,
+  })
+  telefonoContacto!: string;
 
-  @Property({ nullable: true, default: 'El agente inmobiliario NO realizó comentarios' })
-  descriptionconsulta!: string;
+  @Property({
+    nullable: true,
+    default: 'El agente inmobiliario NO realizó comentarios',
+  })
+  descriptionvisita!: string;
+  @Property({ nullable: true, default: 'El estado es obligatorio' })
+  estado!: string;
 }

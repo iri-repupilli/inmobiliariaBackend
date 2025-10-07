@@ -1,9 +1,17 @@
 import { BaseEntity } from '../shared/db/baseEntity.entity.js';
-import { Entity, Property, ManyToOne, Rel, OneToMany, Cascade, Collection } from '@mikro-orm/core';
+import {
+  Entity,
+  Property,
+  ManyToOne,
+  Rel,
+  OneToMany,
+  Cascade,
+  Collection,
+} from '@mikro-orm/core';
 import { Propietario } from '../Propietario/propietario.entity.js';
 import { TipoServicio } from '../TipoServicio/tipoServicio.entity.js';
 import { Resena } from '../Resena/resena.entity.js';
-import { Consulta } from '../Consulta/consulta.entity.js';
+import { Visita } from '../Visita/visita.entity.js';
 import { Localidad } from '../Localidad/localidad.entity.js';
 import { property } from 'zod';
 
@@ -43,10 +51,10 @@ export abstract class Inmueble extends BaseEntity {
     cascade: [Cascade.ALL],
   })
   resenas = new Collection<Resena>(this);
-  @OneToMany(() => Consulta, (consulta) => consulta.inmueble, {
+  @OneToMany(() => Visita, (visita) => visita.inmueble, {
     cascade: [Cascade.ALL],
   })
-  consultas = new Collection<Consulta>(this);
+  visita = new Collection<Visita>(this);
 }
 
 @Entity()
@@ -66,8 +74,8 @@ export class Casa extends Inmueble {
 
 @Entity()
 export class Departamento extends Inmueble {
-  @Property({ nullable: false , length: 45 })
-  piso!: number
+  @Property({ nullable: false, length: 45 })
+  piso!: number;
 
   @Property({ nullable: true, length: 45 })
   depto!: string;

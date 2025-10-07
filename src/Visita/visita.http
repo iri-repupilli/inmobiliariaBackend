@@ -1,0 +1,69 @@
+### GET ALL
+GET http://localhost:3000/api/visitas
+
+### POST
+# @name createVisita
+POST http://localhost:3000/api/visitas
+Content-Type: application/json
+
+{
+    "datevisita": "2025-03-12",
+    "descriptionvisita": "El agente inmobiliaro juan mostró el dpto, y se quejó de que el anterior agente inmobiliario no habia limpiado el dpto en su ultima visita",
+    "inmueble": 20,    
+    "usuario": 4 ,
+    "telefonoContacto":348265321,
+    "estado":"pendiente"
+}
+
+### ID
+@id = {{createVisita.response.body.data.id}}
+
+### GET ONE
+GET http://localhost:3000/api/visitas/{{id}}
+
+
+### PUT
+PUT  http://localhost:3000/api/visitas/{{id}}
+Content-Type: application/json
+
+{
+    "datevisita": "2025-04-10",
+    "descriptionvisita": "El agente inmobiliario Lorenzo comenta que los clientes que querian aluquilar eran adolescentes problematicos, no recomendados",
+    "inmueble": 3,    
+    "usuario": 2 
+}
+
+### POST2
+POST http://localhost:3000/api/visitas
+Content-Type: application/json
+
+{
+    "datevisita": "2025-07-10",
+    "inmueble": 20,    
+    "usuario": 2 
+}
+
+### POST3
+POST http://localhost:3000/api/visitas
+Content-Type: application/json
+
+{
+    "datevisita": "2025-06-24",
+    "inmueble": 3,    
+    "usuario": 1 
+}
+
+### POST CHARACTER TO DELETE
+# @name createVisitaToDelete
+POST http://localhost:3000/api/visitas
+Content-Type: application/json
+
+{
+    "datevisita": "2025-07-14",
+    "inmueble": 3,    
+    "usuario": 1 
+}
+
+### DELETE
+@idToDelete = {{createVisitaToDelete.response.body.data.id}}
+DELETE http://localhost:3000/api/visitas/{{idToDelete}}
