@@ -1,0 +1,65 @@
+### GET ALL
+GET http://localhost:3000/api/consultas
+
+### POST
+# @name createConsulta
+POST http://localhost:3000/api/consultas
+Content-Type: application/json
+
+{
+    "descripcion": "El departamento cuenta con 3 baños en excelentes condiciones",
+    "inmueble": 1,    
+    "usuario": 1 
+}
+
+### ID
+@id = {{createConsulta.response.body.data.id}}
+
+### GET ONE
+GET http://localhost:3000/api/consultas/{{id}}
+
+
+### PUT
+PUT  http://localhost:3000/api/consultas/{{id}}
+Content-Type: application/json
+
+{
+    "descripcion": "El departamento cuenta con baños que se encuentran en pesimas condiciones",
+    "inmueble": 2,    
+    "usuario": 1
+}
+
+### POST2
+POST http://localhost:3000/api/consultas
+Content-Type: application/json
+
+{
+    "descripcion": "La zona es increible, la casa es perfecta y la atencion fue buena",
+    "inmueble": 5,    
+    "usuario": 1
+}
+
+### POST3
+POST http://localhost:3000/api/consultas
+Content-Type: application/json
+
+{
+    "descripcion": "El departamento mas pequeño de todo Rosario, no vale la pena calidad/precio",
+    "inmueble": 3,    
+    "usuario": 2
+}
+
+### POST CHARACTER TO DELETE
+# @name createConsultaToDelete
+POST http://localhost:3000/api/consultas
+Content-Type: application/json
+
+{
+    "descripcion": "excelente patio",
+    "inmueble": 1,    
+    "usuario": 1
+}
+
+### DELETE
+@idToDelete = {{createConsultaToDelete.response.body.data.id}}
+DELETE http://localhost:3000/api/consultas/{{idToDelete}}

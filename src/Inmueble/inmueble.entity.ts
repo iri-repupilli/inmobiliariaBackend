@@ -10,7 +10,7 @@ import {
 } from '@mikro-orm/core';
 import { Propietario } from '../Propietario/propietario.entity.js';
 import { TipoServicio } from '../TipoServicio/tipoServicio.entity.js';
-import { Resena } from '../Resena/resena.entity.js';
+import { Consulta } from '../Consulta/consulta.entity.js';
 import { Visita } from '../Visita/visita.entity.js';
 import { Localidad } from '../Localidad/localidad.entity.js';
 import { property } from 'zod';
@@ -47,10 +47,10 @@ export abstract class Inmueble extends BaseEntity {
   tipoServicio!: Rel<TipoServicio>;
   @ManyToOne(() => Localidad, { nullable: false })
   localidad!: Rel<Localidad>;
-  @OneToMany(() => Resena, (resena) => resena.inmueble, {
+  @OneToMany(() => Consulta, (consulta) => consulta.inmueble, {
     cascade: [Cascade.ALL],
   })
-  resenas = new Collection<Resena>(this);
+  consultas = new Collection<Consulta>(this);
   @OneToMany(() => Visita, (visita) => visita.inmueble, {
     cascade: [Cascade.ALL],
   })

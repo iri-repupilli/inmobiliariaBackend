@@ -1,13 +1,15 @@
 import { Request, Response } from 'express';
 import { orm } from '../shared/db/orm.js';
-import { Resena } from './resena.entity.js';
+import { Consulta } from './consulta.entity.js';
 
 const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
   try {
-    const resenas = await em.find(Resena, {});
-    res.status(200).json({ message: 'encontradas todas las reseñas', data: resenas });
+    const consultas = await em.find(Consulta, {});
+    res
+      .status(200)
+      .json({ message: 'encontradas todas las consultass', data: consultas });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -16,25 +18,18 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const resena = await em.findOneOrFail(Resena, { id });
-    res.status(200).json({ message: 'la reseña encontrada', data: resena });
+    const consulta = await em.findOneOrFail(Consulta, { id });
+    res.status(200).json({ message: 'la consulta encontrada', data: consulta });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 }
 
-function validateResena(data: any) {
-  if (data.puntajeresena < 1 || data.puntajeresena > 10) {
-    throw new Error('Puntaje debe estar entre 1-10');
-  }
-}
-
 async function add(req: Request, res: Response) {
   try {
-    validateResena(req.body);
-    const resena = em.create(Resena, req.body);
-    await em.persistAndFlush(resena);
-    res.status(201).json({ message: 'reseña creada', data: resena });
+    const consulta = em.create(Consulta, req.body);
+    await em.persistAndFlush(consulta);
+    res.status(201).json({ message: 'consulta creada', data: consulta });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -42,12 +37,11 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
-    validateResena(req.body);
     const id = Number.parseInt(req.params.id);
-    const resena = await em.findOneOrFail(Resena, id);
-    em.assign(resena, req.body);
+    const consulta = await em.findOneOrFail(Consulta, id);
+    em.assign(consulta, req.body);
     await em.flush();
-    res.status(200).json({ message: 'reseña actualizada' });
+    res.status(200).json({ message: 'consulta actualizada' });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -56,9 +50,9 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
-    const resena = em.getReference(Resena, id);
-    await em.removeAndFlush(resena);
-    res.status(200).send({ message: 'reseña eliminada' });
+    const consulta = em.getReference(Consulta, id);
+    await em.removeAndFlush(consulta);
+    res.status(200).send({ message: 'consulta eliminada' });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

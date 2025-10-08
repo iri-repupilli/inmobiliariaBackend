@@ -6,7 +6,7 @@ import {
   Cascade,
   Collection,
 } from '@mikro-orm/core';
-import { Resena } from '../Resena/resena.entity.js';
+import { Consulta } from '../Consulta/consulta.entity.js';
 import { Visita } from '../Visita/visita.entity.js';
 @Entity()
 export class Usuario extends BaseEntity {
@@ -22,10 +22,10 @@ export class Usuario extends BaseEntity {
   telefono!: string;
   @Property({ nullable: false, length: 45 })
   rol!: string;
-  @OneToMany(() => Resena, (resena) => resena.usuario, {
+  @OneToMany(() => Consulta, (consulta) => consulta.usuario, {
     cascade: [Cascade.ALL],
   })
-  resenas = new Collection<Resena>(this);
+  consultas = new Collection<Consulta>(this);
   @OneToMany(() => Visita, (visita) => visita.usuario, {
     cascade: [Cascade.ALL],
   })
