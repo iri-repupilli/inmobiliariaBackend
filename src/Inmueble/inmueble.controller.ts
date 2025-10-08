@@ -16,81 +16,11 @@ const tipoClasesMap = {
   terreno: Terreno,
 };
 
-/*function sanitizeInmuebleInput(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const tipo = req.body.tipo; // Debe venir en el body
-
-  if (!tipo || !tipoClasesMap[tipo as keyof typeof tipoClasesMap]) {
-    return res.status(400).json({
-      message: 'Tipo de inmueble requerido o inválido',
-      tiposValidos: Object.keys(tipoClasesMap),
-    });
-  }
-
-  // Sanitizar campos comunes
-  req.body.sanitizedInput = {
-    mtrs: req.body.mtrs,
-    descripcion: req.body.descripcion,
-    antiguedad: req.body.antiguedad,
-    fechaPublicacion: req.body.fechaPublicacion || new Date(),
-    requisitos: req.body.requisitos,
-    propietario: req.body.propietario,
-    tipoServicio: req.body.tipoServicio,
-    localidad: req.body.localidad,
-  };
-
-  // Agregar campos específicos según el tipo
-  switch (tipo) {
-    case 'casa':
-      Object.assign(req.body.sanitizedInput, {
-        cantAmbientes: req.body.cantAmbientes,
-        cantBanios: req.body.cantBanios,
-        patio: req.body.patio || false,
-        pileta: req.body.pileta || false,
-      });
-      break;
-    case 'departamento':
-      Object.assign(req.body.sanitizedInput, {
-        cantAmbientes: req.body.cantAmbientes,
-        cantBanios: req.body.cantBanios,
-        balcon: req.body.balcon || false,
-      });
-      break;
-    case 'cochera':
-      Object.assign(req.body.sanitizedInput, {
-        techo: req.body.techo || false,
-        tipoVehiculo: req.body.tipoVehiculo,
-      });
-      break;
-    case 'terreno':
-      Object.assign(req.body.sanitizedInput, {
-        ancho: req.body.ancho,
-        largo: req.body.largo,
-        superficieTotal: req.body.superficieTotal,
-        nroParcela: req.body.nroParcela,
-        zonificacion: req.body.zonificacion,
-      });
-      break;
-  }
-
-  Object.keys(req.body.sanitizedInput).forEach((key) => {
-    if (req.body.sanitizedInput[key] === undefined) {
-      delete req.body.sanitizedInput[key];
-    }
-  });
-
-  next();
-}
-*/
-
 const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
   try {
-   const tipo = (req.query.tipo || '').toString().trim().toLowerCase();
+    const tipo = (req.query.tipo || '').toString().trim().toLowerCase();
     const calle = (req.query.calle || '').toString().trim();
     const localidad = (req.query.localidad || '').toString().trim();
     const precioDolar = (req.query.precioDolar || '').toString().trim();
@@ -112,9 +42,18 @@ async function findAll(req: Request, res: Response) {
     }
 
     const inmuebles = await em.find(Inmueble, where, {
-      populate: ['propietario', 'tipoServicio', 'localidad'],
+      populate: [
+        'propietario',
+        'tipoServicio',
+        'localidad',
+        'consultas',
+        'visita',
+      ],
     });
-    const inmueblesPlain = inmuebles.map(i => ({ ...(i as any), tipo: i.constructor.name.toLowerCase() }));
+    const inmueblesPlain = inmuebles.map((i) => ({
+      ...(i as any),
+      tipo: i.constructor.name.toLowerCase(),
+    }));
     console.log('instancia:', inmuebles.constructor.name);
 
     res.status(200).json({
@@ -132,18 +71,25 @@ async function findOne(req: Request, res: Response) {
     const inmueble = await em.findOneOrFail(
       Inmueble,
       { id },
-      { populate: ['propietario', 'tipoServicio', 'localidad'] }
+      {
+        populate: [
+          'propietario',
+          'tipoServicio',
+          'localidad',
+          'consultas.usuario',
+          'visita',
+        ],
+      }
     );
 
-    const inmueblePlain = { 
-      ...(inmueble as any), 
-      tipo: inmueble.constructor.name.toLowerCase() 
+    const inmueblePlain = {
+      ...(inmueble as any),
+      tipo: inmueble.constructor.name.toLowerCase(),
     };
 
     res
       .status(200)
       .json({ message: 'se encontró el inmueble', data: inmueblePlain });
-      
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -175,9 +121,9 @@ async function update(req: Request, res: Response) {
     await em.flush();
     res.status(200).json({ message: 'inmueble actualizado correctamente' });
   } catch (error: any) {
-    console.error('ERROR COMPLETO:', error);           // <- AGREGA
-    console.error('Error message:', error.message);    // <- AGREGA
-    console.error('Error stack:', error.stack);        // <- AGREGA
+    console.error('ERROR COMPLETO:', error); // <- AGREGA
+    console.error('Error message:', error.message); // <- AGREGA
+    console.error('Error stack:', error.stack); // <- AGREGA
     res.status(500).json({ message: error.message || 'Internal server error' });
   }
 }
