@@ -9,7 +9,7 @@ Content-Type: application/json
 {
     "descripcion": "El departamento cuenta con 3 baños en excelentes condiciones",
     "inmueble": 1,    
-    "usuario": 1 
+    "usuario": 3 
 }
 
 ### ID
@@ -26,7 +26,7 @@ Content-Type: application/json
 {
     "descripcion": "El departamento cuenta con baños que se encuentran en pesimas condiciones",
     "inmueble": 2,    
-    "usuario": 1
+    "usuario": 4
 }
 
 ### POST2
@@ -36,7 +36,7 @@ Content-Type: application/json
 {
     "descripcion": "La zona es increible, la casa es perfecta y la atencion fue buena",
     "inmueble": 5,    
-    "usuario": 1
+    "usuario": 5
 }
 
 ### POST3
