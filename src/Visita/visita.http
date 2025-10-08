@@ -9,9 +9,9 @@ Content-Type: application/json
 {
     "datevisita": "2025-03-12",
     "descriptionvisita": "El agente inmobiliaro juan mostró el dpto, y se quejó de que el anterior agente inmobiliario no habia limpiado el dpto en su ultima visita",
-    "inmueble": 20,    
+    "inmueble": 1,    
     "usuario": 4 ,
-    "telefonoContacto":348265321,
+    "telefonoContacto":"348265321",
     "estado":"pendiente"
 }
 
