@@ -7,6 +7,7 @@ import {
   Terreno,
   Inmueble,
 } from './inmueble.entity.js';
+import { TipoServicio } from '../TipoServicio/tipoServicio.entity.js';
 
 // Mapa de tipos a clases
 const tipoClasesMap = {
@@ -24,6 +25,8 @@ async function findAll(req: Request, res: Response) {
     const calle = (req.query.calle || '').toString().trim();
     const localidad = (req.query.localidad || '').toString().trim();
     const precioDolar = (req.query.precioDolar || '').toString().trim();
+    const tipoServicio = (req.query.tipoServicio || '').toString().trim();
+    // Construyo el objeto "where" dinámicamente según los filtros proporcionados
     const where: any = {};
     if (tipo) where.tipo = tipo;
     if (calle) where.direccionCalle = { $like: `%${calle}%` }; // MySQL LIKE
@@ -38,6 +41,21 @@ async function findAll(req: Request, res: Response) {
         where.precioDolar = { $gte: 100000, $lte: 200000 };
       } else if (precioDolar === '200000+') {
         where.precioDolar = { $gte: 200000 };
+      }
+    }
+    // Busca el objeto TipoServicio por nombre para obtener su ID
+    if (tipoServicio) {
+      const tipoServicioObj = await em.findOne(TipoServicio, {
+        nombreTipoServicio: tipoServicio,
+      });
+      //Aca agregamos la condicion del  tipo de servicio al where
+      if (tipoServicioObj) {
+        where.tipoServicio = tipoServicioObj.id;
+      } else {
+        return res.status(200).json({
+          message: 'No se encontraron inmuebles para ese tipo de servicio',
+          data: [],
+        });
       }
     }
 
