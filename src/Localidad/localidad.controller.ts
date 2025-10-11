@@ -12,6 +12,7 @@ async function findAll(req: Request, res: Response) {
     res.status(500).json({ error: error.message });
   }
 }
+
 async function findOne(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
@@ -24,6 +25,11 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    const codPostal = req.body.codPostal;
+    const existeLocalidad = await em.findOne(Localidad, { codPostal });
+    if (existeLocalidad && existeLocalidad.id !== Number.parseInt(req.params.id)) {
+      return res.status(400).json({ message: 'El codigo postal ya esta registrado' });
+    }
     const localidad = em.create(Localidad, req.body);
     await em.persistAndFlush(localidad);
     res.status(201).json({ message: 'Localidad added successfully', data: localidad });
@@ -31,8 +37,14 @@ async function add(req: Request, res: Response) {
     res.status(500).json({ error: error.message });
   }
 }
+
 async function update(req: Request, res: Response) {
   try {
+    const codPostal = req.body.codPostal;
+    const existeLocalidad = await em.findOne(Localidad, { codPostal });
+    if (existeLocalidad && existeLocalidad.id !== Number.parseInt(req.params.id)) {
+      return res.status(400).json({ message: 'El codigo postal ya esta registrado' });
+    }
     const id = Number.parseInt(req.params.id);
     const localidad = await em.findOneOrFail(Localidad, id);
     em.assign(localidad, req.body);
