@@ -25,6 +25,11 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    const mailPropietario = req.body.mailPropietario;
+    const existePropietario = await em.findOne(Propietario, { mailPropietario });
+    if (existePropietario) {
+      return res.status(400).json({ message: 'El mail ya esta registrado' });
+    }
     const propietario = em.create(Propietario, req.body);
     await em.persistAndFlush(propietario);
     res.status(201).json({ message: 'Propietary created', data: propietario });
@@ -35,6 +40,11 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
+    const mailPropietario = req.body.mailPropietario;
+    const existePropietario = await em.findOne(Propietario, { mailPropietario });
+    if (existePropietario && existePropietario.id !== Number.parseInt(req.params.id)) {
+      return res.status(400).json({ message: 'El mail ya esta registrado' });
+    }
     const id = Number.parseInt(req.params.id);
     const propietario = await em.findOneOrFail(Propietario, id);
     em.assign(propietario, req.body);
