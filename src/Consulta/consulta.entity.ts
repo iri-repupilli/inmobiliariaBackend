@@ -13,4 +13,7 @@ export class Consulta extends BaseEntity {
 
   @Property({ nullable: true, default: 'El usuario NO realizó comentarios' })
   descripcion!: string;
+
+  @Property({ nullable: true })
+  respuesta?: string;
 }
