@@ -6,7 +6,13 @@ const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
   try {
-    const consultas = await em.find(Consulta, {});
+    const { condicion } = req.query;
+    const where: any = {};
+
+  if (condicion === 'true') {
+    where.respuesta = '';
+  }
+    const consultas = await em.find(Consulta,where, {});
     res
       .status(200)
       .json({ message: 'encontradas todas las consultass', data: consultas });
