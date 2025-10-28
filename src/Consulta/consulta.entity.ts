@@ -11,7 +11,7 @@ export class Consulta extends BaseEntity {
   @ManyToOne(() => Usuario, { nullable: false })
   usuario!: Rel<Usuario>;
 
-  @Property({ nullable: true, default: 'El usuario NO realizó comentarios' })
+  @Property({ length: 200, nullable: false })
   descripcion!: string;
 
   @Property({ nullable: true })

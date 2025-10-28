@@ -29,7 +29,7 @@ export abstract class Inmueble extends BaseEntity {
   mtrs!: number;
   @Property({ nullable: false, length: 45 })
   descripcion!: string;
-  @Property({ nullable: false, length: 45 })
+  @Property({ nullable: false, length: 200 })
   precioDolar!: number;
   @Property({ nullable: false, length: 45 })
   direccionCalle!: string;
@@ -43,7 +43,7 @@ export abstract class Inmueble extends BaseEntity {
   requisitos?: string;
   @ManyToOne(() => Propietario, { nullable: false })
   propietario!: Rel<Propietario>;
-  @ManyToOne(() => TipoServicio, { nullable: false })
+  @ManyToOne(() => TipoServicio, { deleteRule: 'restrict', nullable: false })
   tipoServicio!: Rel<TipoServicio>;
   @ManyToOne(() => Localidad, { nullable: false })
   localidad!: Rel<Localidad>;
