@@ -1,0 +1,39 @@
+###GET ALL
+GET http://localhost:3000/api/imagenes
+
+### POST
+# @name createImagen
+POST http://localhost:3000/api/imagenes
+Content-Type: application/json
+
+{
+    "path": "foto.jpg",
+    "inmueble": 1
+}
+
+### ID
+@id = {{createImagen.response.body.data.id}}
+### GET ONE
+GET http://localhost:3000/api/imagenes/{{id}}
+
+### PUT
+PUT  http://localhost:3000/api/imagenes/{{id}}
+Content-Type: application/json
+
+{
+    "path": "ruta/actualizada/de/la/imagen1.jpg",
+    "inmueble": 2
+}
+
+### POST2
+POST http://localhost:3000/api/imagenes
+
+Content-Type: application/json
+
+{
+    "path": "ruta/de/la/imagen2.jpg",
+    "inmueble": 3
+}
+
+###DELETE
+DELETE http://localhost:3000/api/imagenes/{{id}}

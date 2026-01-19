@@ -14,6 +14,7 @@ import { Consulta } from '../Consulta/consulta.entity.js';
 import { Visita } from '../Visita/visita.entity.js';
 import { Localidad } from '../Localidad/localidad.entity.js';
 import { property } from 'zod';
+import { Imagen } from '../Imagenes/imagen.entity.js';
 
 @Entity({
   discriminatorColumn: 'tipo',
@@ -55,6 +56,10 @@ export abstract class Inmueble extends BaseEntity {
     cascade: [Cascade.ALL],
   })
   visita = new Collection<Visita>(this);
+  @OneToMany(() => Imagen, (imagen) => imagen.inmueble, {
+    cascade: [Cascade.ALL],
+  })
+  imagenes = new Collection<Imagen>(this);
 }
 
 @Entity()

@@ -9,6 +9,7 @@ import { usuarioRouter } from './Usuario/usuario.routes.js';
 import { localidadRouter } from './Localidad/localidad.routes.js';
 import { consultaRouter } from './Consulta/consulta.routes.js';
 import { visitaRouter } from './Visita/visita.routes.js';
+import { imagenRouter } from './Imagenes/imagen.routes.js';
 
 import cors from 'cors';
 //defino la app
@@ -18,7 +19,7 @@ app.use(
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 
@@ -35,6 +36,7 @@ app.use('/api/propietarios', propietarioRouter);
 app.use('/api/inmuebles', inmuebleRouter);
 app.use('/api/consultas', consultaRouter);
 app.use('/api/visitas', visitaRouter);
+app.use('/api/imagenes', imagenRouter);
 
 app.use((_, res) => {
   res.status(404).send({ message: 'Resource not found' });
