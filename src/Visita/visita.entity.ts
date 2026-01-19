@@ -23,6 +23,6 @@ export class Visita extends BaseEntity {
     default: 'El agente inmobiliario NO realizó comentarios',
   })
   descriptionvisita!: string;
-  @Property({ nullable: true, default: 'El estado es obligatorio' })
+  @Property({ nullable: true, default: 'Pendiente' })
   estado!: string;
 }
