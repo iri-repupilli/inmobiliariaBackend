@@ -54,7 +54,7 @@ localidadRouter.delete('/:id', schemaValidation(RemoveLocalidadSchema), remove);
  * @swagger
  * tags:
  *   name: Localidades
- *   description: Localidades de propiedades
+ *   description: Localidades de los inmuebles
  */
 
 // GET ALL SWAGGER
