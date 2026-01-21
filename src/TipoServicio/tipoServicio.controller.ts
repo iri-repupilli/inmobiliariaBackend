@@ -24,7 +24,7 @@ async function findOne(req: Request, res: Response) {
       .status(200)
       .json({ message: 'found tipo de servicio', data: tipoServicio });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: 'tipo de servicio not found' });
   }
 }
 
@@ -52,7 +52,7 @@ async function update(req: Request, res: Response) {
       data: tipoServicioToUpdate,
     });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: 'tipo de servicio not found' });
   }
 }
 
