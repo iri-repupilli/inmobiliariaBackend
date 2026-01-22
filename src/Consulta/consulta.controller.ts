@@ -9,10 +9,10 @@ async function findAll(req: Request, res: Response) {
     const { condicion } = req.query;
     const where: any = {};
 
-  if (condicion === 'true') {
-    where.respuesta = '';
-  }
-    const consultas = await em.find(Consulta,where, {});
+    if (condicion === 'true') {
+      where.respuesta = '';
+    }
+    const consultas = await em.find(Consulta, where, {});
     res
       .status(200)
       .json({ message: 'encontradas todas las consultass', data: consultas });
@@ -25,9 +25,9 @@ async function findOne(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);
     const consulta = await em.findOneOrFail(Consulta, { id });
-    res.status(200).json({ message: 'la consulta encontrada', data: consulta });
+    res.status(200).json({ message: 'Consulta encontrada', data: consulta });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: 'Consulta not found' });
   }
 }
 
@@ -49,7 +49,7 @@ async function update(req: Request, res: Response) {
     await em.flush();
     res.status(200).json({ message: 'consulta actualizada' });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: 'Consulta not found' });
   }
 }
 
@@ -60,7 +60,7 @@ async function remove(req: Request, res: Response) {
     await em.removeAndFlush(consulta);
     res.status(200).send({ message: 'consulta eliminada' });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: 'Consulta not found' });
   }
 }
 

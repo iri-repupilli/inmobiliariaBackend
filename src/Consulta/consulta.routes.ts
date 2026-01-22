@@ -20,3 +20,157 @@ consultaRouter.get('/:id', schemaValidation(findOneConsulta), findOne);
 consultaRouter.post('/', schemaValidation(addConsulta), add);
 consultaRouter.put('/:id', schemaValidation(updateConsulta), update);
 consultaRouter.delete('/:id', schemaValidation(deleteConsulta), remove);
+
+//SCHEMA SWAGGER
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    Consulta:
+ *      type: object
+ *      required:
+ *        - id
+ *        - descripcion
+ *        - inmueble
+ *        - usuario
+ *      properties:
+ *        id:
+ *          type: integer
+ *          description: The auto-generated id of the Consulta
+ *        descripcion:
+ *          type: string
+ *          description: The description of the Consulta
+ *        inmueble:
+ *          type: integer
+ *          description: The id of the Inmueble related to the Consulta
+ *        usuario:
+ *          type: integer
+ *          description: The id of the Usuario who made the Consulta
+ *        respuesta:
+ *          type: string
+ *          description: The response to the Consulta
+ *      example:
+ *        id: 1
+ *        descripcion: '¿En qué estado se encuentran los baños del inmueble?'
+ *        inmueble: 2
+ *        usuario: 3
+ *        respuesta: 'Los baños están en excelente estado y han sido renovados recientemente.'
+ *  */
+
+//TAG SWAGGER
+/**
+ * @swagger
+ * tags:
+ *   name: Consultas
+ *   description: Consultas realizadas por los usuarios sobre los inmuebles
+ */
+
+// GET ALL SWAGGER
+/**
+ * @swagger
+ * /api/consultas:
+ *   get:
+ *     summary: Return the list of all the Consultas
+ *     tags: [Consultas]
+ *     responses:
+ *       200:
+ *         description: The list of the Consultas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Consulta'
+ */
+
+// GET ONE SWAGGER
+/**
+ * @swagger
+ * /api/consultas/{id}:
+ *   get:
+ *     summary: Return a Consulta
+ *     tags: [Consultas]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Consulta id
+ *     responses:
+ *       200:
+ *         description: Consulta found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Consulta'
+ *       404:
+ *         description: Consulta not found
+ */
+//POST SWAGGER
+/**
+ * @swagger
+ * /api/consultas:
+ *   post:
+ *    summary: Create a new Consulta
+ *    tags: [Consultas]
+ *    requestBody:
+ *     required: true
+ *     content:
+ *       application/json:
+ *         schema:
+ *           type: object
+ *           $ref: '#/components/schemas/Consulta'
+ *    responses:
+ *     201:
+ *      description: new Consulta created
+ *     500:
+ *      description: Some server error
+ */
+
+// DELETE SWAGGER
+/**
+ * @swagger
+ * /api/consultas/{id}:
+ *   delete:
+ *     summary: Delete a Consulta
+ *     tags: [Consultas]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Consulta id
+ *     responses:
+ *       200:
+ *         description: Consulta deleted
+ *       404:
+ *         description: Consulta not found
+ */
+// UPDATE SWAGGER
+/**
+ * @swagger
+ * /api/consultas/{id}:
+ *   put:
+ *     summary: Update a Consulta
+ *     tags: [Consultas]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Consulta id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Consulta'
+ *     responses:
+ *       200:
+ *         description: Consulta updated
+ *       404:
+ *         description: Consulta not found
+ */
