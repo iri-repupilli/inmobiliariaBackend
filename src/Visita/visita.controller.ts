@@ -28,11 +28,11 @@ async function findOne(req: Request, res: Response) {
     const visita = await em.findOneOrFail(
       Visita,
       { id },
-      { populate: ['inmueble', 'usuario'] }
+      { populate: ['inmueble', 'usuario'] },
     );
     res.status(200).json({ message: 'la visita encontrada', data: visita });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: 'visita not found' });
   }
 }
 
@@ -57,7 +57,7 @@ async function update(req: Request, res: Response) {
     await em.flush();
     res.status(200).json({ message: 'visita actualizada' });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: 'visita not found' });
   }
 }
 
@@ -68,7 +68,7 @@ async function remove(req: Request, res: Response) {
     await em.removeAndFlush(visita);
     res.status(200).send({ message: 'visita eliminada' });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: 'visita not found' });
   }
 }
 
