@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import 'reflect-metadata';
 import { orm, syncSchema } from './shared/db/orm.js';
 import express from 'express';
@@ -12,6 +13,7 @@ import { visitaRouter } from './Visita/visita.routes.js';
 import { imagenRouter } from './Imagenes/imagen.routes.js';
 import swaggerUi from 'swagger-ui-express';
 import specs from './shared/docs/swagger.js';
+import cookieParser from 'cookie-parser';
 
 import cors from 'cors';
 //defino la app
@@ -29,6 +31,10 @@ app.use(express.json());
 app.use((req, res, next) => {
   RequestContext.create(orm.em, next);
 });
+
+//para leer cookies (en especial la de jwt)
+app.use(cookieParser());
+
 //antes de los middlewares del negocio
 //llamada al crud
 app.use('/api/localidades', localidadRouter);

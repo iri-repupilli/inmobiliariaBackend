@@ -1,3 +1,4 @@
+import { authMiddleware } from '../MiddleWares/auth.middleware.js';
 import { schemaValidation } from '../MiddleWares/schemaValidator.middleware.js';
 import {
   AddUsuarioSchema,
@@ -14,20 +15,28 @@ import {
   remove,
   loginUsuario,
 } from './usuario.controller.js';
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 
 const usuarioRouter = Router();
 
-usuarioRouter.get('/', findAll);
-usuarioRouter.get('/:id', schemaValidation(FindOneUsuarioSchema), findOne);
-usuarioRouter.post('/', schemaValidation(AddUsuarioSchema), add);
-usuarioRouter.put('/:id', schemaValidation(UpdateUsuarioSchema), update);
-usuarioRouter.delete('/:id', schemaValidation(RemoveUsuarioSchema), remove);
+//RECORDAR: el orden de los ENDPOINTS importa! Las rutas mas especificas van primero
 usuarioRouter.post(
   '/login',
   schemaValidation(LoginUsuarioSchema),
   loginUsuario,
 );
+usuarioRouter.get('/', findAll);
+//es para hacer pruebas este endpoint protegido
+usuarioRouter.get('/me', authMiddleware, (req: Request, res: Response) => {
+  res.json({
+    message: 'Acceso permitido',
+    user: req.user,
+  });
+});
+usuarioRouter.get('/:id', schemaValidation(FindOneUsuarioSchema), findOne);
+usuarioRouter.post('/', schemaValidation(AddUsuarioSchema), add);
+usuarioRouter.put('/:id', schemaValidation(UpdateUsuarioSchema), update);
+usuarioRouter.delete('/:id', schemaValidation(RemoveUsuarioSchema), remove);
 
 //SCHEMA SWAGGER
 /**

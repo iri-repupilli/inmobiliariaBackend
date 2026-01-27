@@ -1,8 +1,11 @@
 import { orm } from '../shared/db/orm.js';
 import { Request, Response } from 'express';
 import { Usuario } from './usuario.entity.js';
+import jwt from 'jsonwebtoken';
+import { RequestContext } from '@mikro-orm/core';
 
-const em = orm.em;
+//Ponemos el ! pq confío en que acá SIEMPRE hay un EntityManager --> app.ts tiene el RequestContext.create
+const em = RequestContext.getEntityManager()!;
 
 async function findAll(req: Request, res: Response) {
   try {
@@ -66,18 +69,53 @@ async function remove(req: Request, res: Response) {
   }
 }
 
+//FALTA HACER HASH DE CONTRASEÑA
 async function loginUsuario(req: Request, res: Response) {
   try {
+    const em = RequestContext.getEntityManager()!;
     const { email, password } = req.body;
     const usuario = await em.findOneOrFail(Usuario, { email });
-    if (usuario.password !== password) {
-      return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
+
+    if (!usuario) {
+      return res.status(401).json({ message: 'Usuario no encontrado' });
     }
+
+    if (usuario.password !== password) {
+      return res.status(401).json({ message: 'Contraseña incorrecta' });
+    }
+    // Generar un token JWT
+    console.log('Secret:', process.env.JWT_SECRET);
+    const token = jwt.sign(
+      {
+        id: usuario.id,
+        usuario: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol,
+      },
+      process.env.JWT_SECRET as string,
+      {
+        expiresIn: '1h',
+      },
+    );
+
+    //Se guarda token en cookie HttpOnly
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
+
     res.status(200).json({
       message: 'Login exitoso',
-      data: { id: usuario.id, nombre: usuario.nombre, email: usuario.email, rol: usuario.rol },
+      data: {
+        id: usuario.id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol,
+      },
     });
   } catch (error: any) {
+    console.error(error);
     res.status(500).json({ message: 'Usuario o contraseña incorrectos' });
   }
 }
