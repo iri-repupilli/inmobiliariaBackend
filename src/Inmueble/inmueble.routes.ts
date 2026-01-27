@@ -13,13 +13,33 @@ import {
   deleteInmuebleSchema,
   findOneInmuebleSchema,
 } from '../Schemas/inmueble.schema.js';
+import { authMiddleware } from '../MiddleWares/auth.middleware.js';
+import { adminMiddleware } from '../MiddleWares/admin.middleware.js';
 export const inmuebleRouter = Router();
 
 inmuebleRouter.get('/', findAll);
 inmuebleRouter.get('/:id', schemaValidation(findOneInmuebleSchema), findOne);
-inmuebleRouter.post('/', schemaValidation(addInmuebleSchema), add);
-inmuebleRouter.put('/:id', schemaValidation(updateInmuebleSchema), update);
-inmuebleRouter.delete('/:id', schemaValidation(deleteInmuebleSchema), remove);
+inmuebleRouter.post(
+  '/',
+  authMiddleware,
+  adminMiddleware,
+  schemaValidation(addInmuebleSchema),
+  add,
+);
+inmuebleRouter.put(
+  '/:id',
+  authMiddleware,
+  adminMiddleware,
+  schemaValidation(updateInmuebleSchema),
+  update,
+);
+inmuebleRouter.delete(
+  '/:id',
+  authMiddleware,
+  adminMiddleware,
+  schemaValidation(deleteInmuebleSchema),
+  remove,
+);
 
 //SCHEMA SWAGGER
 /**

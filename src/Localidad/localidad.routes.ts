@@ -13,14 +13,34 @@ import {
   RemoveLocalidadSchema,
   UpdateLocalidadSchema,
 } from '../Schemas/localidad.schema.js';
+import { authMiddleware } from '../MiddleWares/auth.middleware.js';
+import { adminMiddleware } from '../MiddleWares/admin.middleware.js';
 
 const localidadRouter = Router();
 
 localidadRouter.get('/', findAll);
 localidadRouter.get('/:id', schemaValidation(FindOneLocalidadSchema), findOne);
-localidadRouter.post('/', schemaValidation(AddLocalidadSchema), add);
-localidadRouter.put('/:id', schemaValidation(UpdateLocalidadSchema), update);
-localidadRouter.delete('/:id', schemaValidation(RemoveLocalidadSchema), remove);
+localidadRouter.post(
+  '/',
+  authMiddleware,
+  adminMiddleware,
+  schemaValidation(AddLocalidadSchema),
+  add,
+);
+localidadRouter.put(
+  '/:id',
+  authMiddleware,
+  adminMiddleware,
+  schemaValidation(UpdateLocalidadSchema),
+  update,
+);
+localidadRouter.delete(
+  '/:id',
+  authMiddleware,
+  adminMiddleware,
+  schemaValidation(RemoveLocalidadSchema),
+  remove,
+);
 
 //SCHEMA SWAGGER
 /**

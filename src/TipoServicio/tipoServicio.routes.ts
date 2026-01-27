@@ -13,6 +13,8 @@ import {
   RemoveTipoServicioSchema,
   UpdateTipoServicioSchema,
 } from '../Schemas/tipoServicio.schema.js';
+import { authMiddleware } from '../MiddleWares/auth.middleware.js';
+import { adminMiddleware } from '../MiddleWares/admin.middleware.js';
 
 const tipoServicioRouter = Router();
 
@@ -22,14 +24,24 @@ tipoServicioRouter.get(
   schemaValidation(FindOneTipoServicioSchema),
   findOne,
 );
-tipoServicioRouter.post('/', schemaValidation(AddTipoServicioSchema), add);
+tipoServicioRouter.post(
+  '/',
+  authMiddleware,
+  adminMiddleware,
+  schemaValidation(AddTipoServicioSchema),
+  add,
+);
 tipoServicioRouter.put(
   '/:id',
+  authMiddleware,
+  adminMiddleware,
   schemaValidation(UpdateTipoServicioSchema),
   update,
 );
 tipoServicioRouter.delete(
   '/:id',
+  authMiddleware,
+  adminMiddleware,
   schemaValidation(RemoveTipoServicioSchema),
   remove,
 );
