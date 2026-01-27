@@ -38,6 +38,7 @@ async function add(req: Request, res: Response) {
     await em.persistAndFlush(propietario);
     res.status(201).json({ message: 'Propietary created', data: propietario });
   } catch (error: any) {
+    console.error(error);
     res.status(500).json({ message: error.message });
   }
 }
@@ -60,6 +61,7 @@ async function update(req: Request, res: Response) {
     await em.flush();
     res.status(200).json({ message: 'Propietary updated', data: propietario });
   } catch (error: any) {
+    console.error(error);
     res.status(404).json({ message: 'Propietario not found' });
   }
 }

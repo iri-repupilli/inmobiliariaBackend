@@ -101,8 +101,8 @@ async function loginUsuario(req: Request, res: Response) {
     //Se guarda token en cookie HttpOnly
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: false, //process.env.NODE_ENV === 'production',
+      sameSite: 'lax', //en producción puede ser 'strict'
     });
 
     res.status(200).json({

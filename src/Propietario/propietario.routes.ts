@@ -13,6 +13,9 @@ import {
   RemovePropietarioSchema,
   UpdatePropietarioSchema,
 } from '../Schemas/propietario.schema.js';
+import { authMiddleware } from '../MiddleWares/auth.middleware.js';
+import { adminMiddleware } from '../MiddleWares/admin.middleware.js';
+
 export const propietarioRouter = Router();
 
 propietarioRouter.get('/', findAll);
@@ -21,19 +24,31 @@ propietarioRouter.get(
   schemaValidation(FindOnePropietarioSchema),
   findOne,
 );
-propietarioRouter.post('/', schemaValidation(AddPropietarioSchema), add);
+propietarioRouter.post(
+  '/',
+  authMiddleware,
+  adminMiddleware,
+  schemaValidation(AddPropietarioSchema),
+  add,
+);
 propietarioRouter.put(
   '/:id',
+  authMiddleware,
+  adminMiddleware,
   schemaValidation(UpdatePropietarioSchema),
   update,
 );
 propietarioRouter.patch(
   '/:id',
+  authMiddleware,
+  adminMiddleware,
   schemaValidation(UpdatePropietarioSchema),
   update,
 );
 propietarioRouter.delete(
   '/:id',
+  authMiddleware,
+  adminMiddleware,
   schemaValidation(RemovePropietarioSchema),
   remove,
 );

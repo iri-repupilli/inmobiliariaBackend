@@ -26,14 +26,13 @@ app.use(
   }),
 );
 app.use(express.json());
+//para leer cookies (en especial la de jwt)
+app.use(cookieParser());
 
 //luego de los middlewares base
 app.use((req, res, next) => {
   RequestContext.create(orm.em, next);
 });
-
-//para leer cookies (en especial la de jwt)
-app.use(cookieParser());
 
 //antes de los middlewares del negocio
 //llamada al crud
