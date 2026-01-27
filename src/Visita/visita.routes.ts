@@ -7,14 +7,30 @@ import {
   findOneVisitaSchema,
 } from '../Schemas/visita.schema.js';
 import { schemaValidation } from '../MiddleWares/schemaValidator.middleware.js';
+import { authMiddleware } from '../MiddleWares/auth.middleware.js';
 
 export const visitaRouter = Router();
 
-visitaRouter.get('/', findAll);
-visitaRouter.get('/:id', schemaValidation(findOneVisitaSchema), findOne);
-visitaRouter.post('/', schemaValidation(addVisitaSchema), add);
-visitaRouter.put('/:id', schemaValidation(updateVisitaSchema), update);
-visitaRouter.delete('/:id', schemaValidation(deleteVisitaSchema), remove);
+visitaRouter.get('/', authMiddleware, findAll);
+visitaRouter.get(
+  '/:id',
+  authMiddleware,
+  schemaValidation(findOneVisitaSchema),
+  findOne,
+);
+visitaRouter.post('/', authMiddleware, schemaValidation(addVisitaSchema), add);
+visitaRouter.put(
+  '/:id',
+  authMiddleware,
+  schemaValidation(updateVisitaSchema),
+  update,
+);
+visitaRouter.delete(
+  '/:id',
+  authMiddleware,
+  schemaValidation(deleteVisitaSchema),
+  remove,
+);
 
 //SCHEMA SWAGGER
 /**

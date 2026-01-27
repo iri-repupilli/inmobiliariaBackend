@@ -13,13 +13,25 @@ import {
   deleteConsulta,
 } from '../Schemas/consulta.schema.js';
 import { schemaValidation } from '../MiddleWares/schemaValidator.middleware.js';
+import { authMiddleware } from '../MiddleWares/auth.middleware.js';
+
 export const consultaRouter = Router();
 
 consultaRouter.get('/', findAll);
 consultaRouter.get('/:id', schemaValidation(findOneConsulta), findOne);
-consultaRouter.post('/', schemaValidation(addConsulta), add);
-consultaRouter.put('/:id', schemaValidation(updateConsulta), update);
-consultaRouter.delete('/:id', schemaValidation(deleteConsulta), remove);
+consultaRouter.post('/', authMiddleware, schemaValidation(addConsulta), add);
+consultaRouter.put(
+  '/:id',
+  authMiddleware,
+  schemaValidation(updateConsulta),
+  update,
+);
+consultaRouter.delete(
+  '/:id',
+  authMiddleware,
+  schemaValidation(deleteConsulta),
+  remove,
+);
 
 //SCHEMA SWAGGER
 /**
