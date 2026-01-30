@@ -120,4 +120,13 @@ async function loginUsuario(req: Request, res: Response) {
   }
 }
 
-export { findAll, findOne, add, update, remove, loginUsuario };
+async function logoutUsuario(req: Request, res: Response) {
+  try {
+    res.clearCookie('token'); //limpiar la cookie del token
+    res.status(200).json({ message: 'Logout exitoso' });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Error al hacer logout' });
+  }
+}
+
+export { findAll, findOne, add, update, remove, loginUsuario, logoutUsuario };

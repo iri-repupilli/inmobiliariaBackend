@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { authMiddleware } from '../MiddleWares/auth.middleware.js';
 import { schemaValidation } from '../MiddleWares/schemaValidator.middleware.js';
 import {
@@ -14,6 +15,7 @@ import {
   update,
   remove,
   loginUsuario,
+  logoutUsuario,
 } from './usuario.controller.js';
 import { Request, Response, Router } from 'express';
 
@@ -25,6 +27,7 @@ usuarioRouter.post(
   schemaValidation(LoginUsuarioSchema),
   loginUsuario,
 );
+usuarioRouter.post('/logout', logoutUsuario);
 usuarioRouter.get('/', findAll);
 //es para hacer pruebas este endpoint protegido
 usuarioRouter.get('/me', authMiddleware, (req: Request, res: Response) => {
