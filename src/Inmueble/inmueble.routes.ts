@@ -247,6 +247,8 @@ inmuebleRouter.delete(
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Inmueble'
+ *      400:
+ *        description: Param validation error
  *      404:
  *        description: Inmueble not found
  * */
@@ -256,7 +258,10 @@ inmuebleRouter.delete(
  * /api/inmuebles:
  *   post:
  *     summary: Create a Inmueble
+ *     description: Endpoint protegido. Requiere autenticación y rol administrador.
  *     tags: [Inmuebles]
+ *     security:
+ *      - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -266,6 +271,12 @@ inmuebleRouter.delete(
  *     responses:
  *       201:
  *         description: Inmueble created
+ *       400:
+ *        description: Body validation error
+ *       401:
+ *        description: Unauthorized. Missing or invalid token
+ *       403:
+ *        description: Forbidden. Only admins allowed
  *       500:
  *        description: Some server error
  */
@@ -276,7 +287,10 @@ inmuebleRouter.delete(
  * /api/inmuebles/{id}:
  *   delete:
  *     summary: Delete a Inmueble
+ *     description: Endpoint protegido. Requiere autenticación y rol administrador.
  *     tags: [Inmuebles]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -287,6 +301,12 @@ inmuebleRouter.delete(
  *     responses:
  *       200:
  *         description: Inmueble deleted
+ *       400:
+ *        description: Param validation error
+ *       401:
+ *        description: Unauthorized. Missing or invalid token
+ *       403:
+ *        description: Forbidden. Only admins allowed
  *       404:
  *         description: Inmueble not found
  */
@@ -296,7 +316,10 @@ inmuebleRouter.delete(
  * /api/inmuebles/{id}:
  *   put:
  *     summary: Update a Inmueble
+ *     description: Endpoint protegido. Requiere autenticación y rol administrador.
  *     tags: [Inmuebles]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *        - in: path
  *          name: id
@@ -313,6 +336,12 @@ inmuebleRouter.delete(
  *     responses:
  *       200:
  *         description: Inmueble updated
+ *       400:
+ *        description: Body validation error
+ *       401:
+ *        description: Unauthorized. Missing or invalid token
+ *       403:
+ *        description: Forbidden. Only admins allowed
  *       500:
  *        description: Some server error
  */

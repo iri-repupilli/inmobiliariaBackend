@@ -6,22 +6,28 @@ const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
   try {
-    const userId = req.query.userId ? Number(req.query.userId) : null;
-    const userType = req.query.userType;
-    const filtro =
-      userType === 'admin' || userId === null ? {} : { usuario: userId };
+    // Usuario autenticado (viene del authMiddleware)
+    const user = req.user as any;
+
+    let filtro = {};
+
+    // Si NO es admin, solo devuelve sus visitas
+    if (user.rol !== 'admin') {
+      filtro = { usuario: user.id };
+    }
 
     const visitas = await em.find(Visita, filtro, {
       populate: ['inmueble', 'usuario'],
     });
-    res
-      .status(200)
-      .json({ message: 'encontradas todas las visitas', data: visitas });
+
+    res.status(200).json({
+      message: 'Visitas encontradas',
+      data: visitas,
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 }
-
 async function findOne(req: Request, res: Response) {
   try {
     const id = Number.parseInt(req.params.id);

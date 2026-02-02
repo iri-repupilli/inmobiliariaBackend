@@ -46,7 +46,15 @@ app.use('/api/visitas', visitaRouter);
 app.use('/api/imagenes', imagenRouter);
 
 //DOCUMENTACION
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    swaggerOptions: {
+      withCredentials: true,
+    },
+  }),
+);
 
 app.use((_, res) => {
   res.status(404).send({ message: 'Resource not found' });

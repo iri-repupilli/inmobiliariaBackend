@@ -18,6 +18,15 @@ const options = {
         },
       ],
     },
+    components: {
+      securitySchemes: {
+        cookieAuth: {
+          type: 'apiKey',
+          in: 'cookie',
+          name: 'token',
+        },
+      },
+    },
   },
   apis: ['./**/*.routes.ts'],
 };

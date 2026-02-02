@@ -116,6 +116,8 @@ consultaRouter.delete(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Consulta'
+ *       400:
+ *        description: Param validation error
  *       404:
  *         description: Consulta not found
  */
@@ -125,7 +127,10 @@ consultaRouter.delete(
  * /api/consultas:
  *   post:
  *    summary: Create a new Consulta
+ *    description: Endpoint protegido. Requiere autenticación.
  *    tags: [Consultas]
+ *    security:
+ *      - cookieAuth: []
  *    requestBody:
  *     required: true
  *     content:
@@ -136,6 +141,10 @@ consultaRouter.delete(
  *    responses:
  *     201:
  *      description: new Consulta created
+ *     400:
+ *      description: Body validation error
+ *     401:
+ *      description: Unauthorized
  *     500:
  *      description: Some server error
  */
@@ -146,7 +155,10 @@ consultaRouter.delete(
  * /api/consultas/{id}:
  *   delete:
  *     summary: Delete a Consulta
+ *     description: Endpoint protegido. Requiere autenticación.
  *     tags: [Consultas]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -157,6 +169,10 @@ consultaRouter.delete(
  *     responses:
  *       200:
  *         description: Consulta deleted
+ *       400:
+ *        description: Param validation error
+ *       401:
+ *        description: Unauthorized
  *       404:
  *         description: Consulta not found
  */
@@ -166,7 +182,10 @@ consultaRouter.delete(
  * /api/consultas/{id}:
  *   put:
  *     summary: Update a Consulta
+ *     description: Endpoint protegido. Requiere autenticación.
  *     tags: [Consultas]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -183,6 +202,10 @@ consultaRouter.delete(
  *     responses:
  *       200:
  *         description: Consulta updated
+ *       400:
+ *        description: Body validation error
+ *       401:
+ *        description: Unauthorized
  *       404:
  *         description: Consulta not found
  */

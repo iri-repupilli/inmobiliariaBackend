@@ -16,6 +16,7 @@ import {
   remove,
   loginUsuario,
   logoutUsuario,
+  getMe,
 } from './usuario.controller.js';
 import { Request, Response, Router } from 'express';
 
@@ -28,15 +29,10 @@ usuarioRouter.post(
   schemaValidation(LoginUsuarioSchema),
   loginUsuario,
 );
-usuarioRouter.post('/logout', logoutUsuario);
+usuarioRouter.post('/logout', authMiddleware, logoutUsuario);
 usuarioRouter.get('/', findAll);
-//es para hacer pruebas este endpoint protegido
-usuarioRouter.get('/me', authMiddleware, (req: Request, res: Response) => {
-  res.json({
-    message: 'Acceso permitido',
-    user: req.user,
-  });
-});
+//devuelve el token
+usuarioRouter.get('/me', authMiddleware, getMe);
 usuarioRouter.get('/:id', schemaValidation(FindOneUsuarioSchema), findOne);
 usuarioRouter.put('/:id', schemaValidation(UpdateUsuarioSchema), update);
 usuarioRouter.delete('/:id', schemaValidation(RemoveUsuarioSchema), remove);
@@ -152,9 +148,45 @@ usuarioRouter.delete('/:id', schemaValidation(RemoveUsuarioSchema), remove);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Usuario'
+ *       400:
+ *        description: Param validation error
  *       500:
- *         description: Some server error
+ *        description: Some server error
  */
+
+//GET ME SWAGGER
+/**
+ * @swagger
+ * /api/usuarios/me:
+ *   get:
+ *     summary: Obtener usuario autenticado
+ *     description: Devuelve la información del usuario actualmente logueado según el token JWT almacenado en la cookie.
+ *     tags: [Usuarios]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Acceso permitido, usuario autenticado
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Acceso permitido
+ *               user:
+ *                 id: 3
+ *                 email: usuario@gmail.com
+ *                 rol: admin
+ *                 iat: 1710000000
+ *                 exp: 1710003600
+ *       401:
+ *         description: No autenticado (token faltante o inválido)
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: No autenticado
+ *       500:
+ *         description: Error interno del servidor
+ */
+
 //POST SWAGGER
 /**
  * @swagger
@@ -211,8 +243,29 @@ usuarioRouter.delete('/:id', schemaValidation(RemoveUsuarioSchema), remove);
  *                       type: string
  *                     rol:
  *                       type: string
+ *       400:
+ *        description: Body validation error
  *       500:
- *         description: Usuario o contraseña incorrectos
+ *        description: Usuario o contraseña incorrectos
+ */
+
+//POST LOGOUT SWAGGER
+/**
+ * @swagger
+ * /api/usuarios/logout:
+ *   post:
+ *     summary: Logout usuario
+ *     description: Requiere autenticacion. Cierra sesión eliminando la cookie JWT (token)
+ *     tags: [Usuarios]
+ *     security:
+ *      - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ *       401:
+ *        description: Unauthorizate
+ *       500:
+ *        description: Some server error.
  */
 
 // DELETE SWAGGER
@@ -232,6 +285,8 @@ usuarioRouter.delete('/:id', schemaValidation(RemoveUsuarioSchema), remove);
  *     responses:
  *       200:
  *         description: Usuario deleted
+ *       400:
+ *        description: Param validation error
  *       500:
  *         description: Some server error
  */
@@ -258,6 +313,8 @@ usuarioRouter.delete('/:id', schemaValidation(RemoveUsuarioSchema), remove);
  *     responses:
  *       200:
  *         description: Usuario updated
+ *       400:
+ *        description: Body validation error
  *       500:
  *         description: Some server error
  */

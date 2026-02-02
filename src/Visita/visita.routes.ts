@@ -94,7 +94,10 @@ visitaRouter.delete(
  * /api/visitas:
  *   get:
  *     summary: Return the list of all the Visitas
+ *     description: Endpoint protegido. Requiere autenticacion
  *     tags: [Visitas]
+ *     security:
+ *      - cookieAuth: []
  *     responses:
  *       200:
  *         description: The list of the Visitas
@@ -104,6 +107,8 @@ visitaRouter.delete(
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Visita'
+ *       401:
+ *        description: Unauthorizate
  */
 
 // GET ONE SWAGGER
@@ -112,7 +117,10 @@ visitaRouter.delete(
  * /api/visitas/{id}:
  *   get:
  *     summary: Return a Visita
+ *     description: Endpoint protegido. Requiere autenticacion
  *     tags: [Visitas]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -127,6 +135,10 @@ visitaRouter.delete(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Visita'
+ *       400:
+ *        description: Param validation error
+ *       401:
+ *        description: Unauthorizate
  *       404:
  *         description: Visita not found
  */
@@ -137,7 +149,10 @@ visitaRouter.delete(
  * /api/visitas:
  *   post:
  *    summary: Create a new Visita
+ *    description: Endpoint protegido. Requiere autenticacion
  *    tags: [Visitas]
+ *    security:
+ *      - cookieAuth: []
  *    requestBody:
  *     required: true
  *     content:
@@ -148,6 +163,10 @@ visitaRouter.delete(
  *    responses:
  *     201:
  *      description: new Visita created
+ *     400:
+ *      description: Body validation error
+ *     401:
+ *      description: Unauthorizate
  *     500:
  *      description: Some server error
  */
@@ -157,7 +176,10 @@ visitaRouter.delete(
  * /api/visitas/{id}:
  *   delete:
  *     summary: Delete a Visita
+ *     description: Endpoint protegido. Requiere autenticacion
  *     tags: [Visitas]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -168,6 +190,10 @@ visitaRouter.delete(
  *     responses:
  *       200:
  *         description: Visita deleted
+ *       400:
+ *        description: Param validation error
+ *       401:
+ *        description: Unauthorizate
  *       404:
  *         description: Visita not found
  */
@@ -177,7 +203,10 @@ visitaRouter.delete(
  * /api/visitas/{id}:
  *   put:
  *     summary: Update a Visita
+ *     description: Endpoint protegido. Requiere autenticacion
  *     tags: [Visitas]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -193,7 +222,11 @@ visitaRouter.delete(
  *             $ref: '#/components/schemas/Visita'
  *     responses:
  *       200:
- *         description: Visita updated
+ *        description: Visita updated
+ *       400:
+ *        description: Param validation error
+ *       401:
+ *        description: Unauthorizate
  *       404:
  *         description: Visita not found
  */

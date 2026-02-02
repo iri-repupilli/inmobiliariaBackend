@@ -157,4 +157,23 @@ async function logoutUsuario(req: Request, res: Response) {
   }
 }
 
-export { findAll, findOne, add, update, remove, loginUsuario, logoutUsuario };
+async function getMe(req: Request, res: Response) {
+  try {
+    res.status(200).json({
+      message: 'Acceso permitido',
+      user: req.user,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Some server error' });
+  }
+}
+export {
+  findAll,
+  findOne,
+  add,
+  update,
+  remove,
+  loginUsuario,
+  logoutUsuario,
+  getMe,
+};

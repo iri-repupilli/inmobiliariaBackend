@@ -137,8 +137,10 @@ propietarioRouter.delete(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Propietario'
+ *       400:
+ *        description: Param validation error
  *       404:
- *         description: Propietario not found
+ *        description: Propietario not found
  */
 
 //POST SWAGGER
@@ -147,7 +149,10 @@ propietarioRouter.delete(
  * /api/propietarios:
  *   post:
  *    summary: Create a new Propietario
+ *    description: Endpoint protegido. Requiere autenticación y rol administrador.
  *    tags: [Propietarios]
+ *    security:
+ *      - cookieAuth: []
  *    requestBody:
  *     required: true
  *     content:
@@ -158,10 +163,14 @@ propietarioRouter.delete(
  *    responses:
  *     201:
  *      description: new Propietario created
- *     500:
- *      description: Some server error
  *     400:
  *      description: Email already registered
+ *     401:
+ *      description: Unauthorized
+ *     403:
+ *      description: Forbidden. Only admins allowed
+ *     500:
+ *      description: Some server error
  */
 
 // DELETE SWAGGER
@@ -170,7 +179,10 @@ propietarioRouter.delete(
  * /api/propietarios/{id}:
  *   delete:
  *     summary: Delete a Propietario
+ *     description: Endpoint protegido. Requiere autenticación y rol administrador.
  *     tags: [Propietarios]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -181,8 +193,14 @@ propietarioRouter.delete(
  *     responses:
  *       200:
  *         description: Propietario deleted
+ *       400:
+ *        description: Param validation error
+ *       401:
+ *        description: Unauthorized
+ *       403:
+ *        description: Forbidden. Only admins allowed
  *       404:
- *         description: Propietario not found
+ *        description: Propietario not found
  */
 // UPDATE SWAGGER
 /**
@@ -190,7 +208,10 @@ propietarioRouter.delete(
  * /api/propietarios/{id}:
  *   put:
  *     summary: Update a Propietario
+ *     description: Endpoint protegido. Requiere autenticación y rol administrador.
  *     tags: [Propietarios]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -207,6 +228,12 @@ propietarioRouter.delete(
  *     responses:
  *       200:
  *         description: Propietario updated
+ *       400:
+ *        description: Body validation error
+ *       401:
+ *        description: Unauthorized
+ *       403:
+ *        description: Forbidden. Only admins allowed
  *       404:
- *         description: Propietario not found
+ *        description: Propietario not found
  */

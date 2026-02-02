@@ -118,6 +118,8 @@ tipoServicioRouter.delete(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/TipoServicio'
+ *       400:
+ *        description: Param validation error
  *       404:
  *         description: Tipo de servicio not found
  */
@@ -127,7 +129,10 @@ tipoServicioRouter.delete(
  * /api/tiposervicios:
  *   post:
  *    summary: Create a new Tipo de servicio
+ *    description: Endpoint protegido. Requiere autenticación y rol administrador.
  *    tags: [Tipos de servicio]
+ *    security:
+ *      - cookieAuth: []
  *    requestBody:
  *     required: true
  *     content:
@@ -138,6 +143,12 @@ tipoServicioRouter.delete(
  *    responses:
  *     201:
  *      description: new Tipo de servicio created
+ *     400:
+ *      description: Body validation error
+ *     401:
+ *      description: Unauthorized
+ *     403:
+ *      description: Forbidden. Only admins allowed
  *     500:
  *      description: Some server error
  */
@@ -147,7 +158,10 @@ tipoServicioRouter.delete(
  * /api/tiposervicios/{id}:
  *   delete:
  *     summary: Delete a Tipo de servicio
+ *     description: Endpoint protegido. Requiere autenticación y rol administrador.
  *     tags: [Tipos de servicio]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -158,6 +172,12 @@ tipoServicioRouter.delete(
  *     responses:
  *       200:
  *         description: Tipo de servicio deleted
+ *       400:
+ *        description: Param validation error
+ *       401:
+ *        description: Unauthorized
+ *       403:
+ *        description: Forbidden. Only admins allowed
  *       404:
  *         description: Tipo de servicio not found
  */
@@ -167,7 +187,10 @@ tipoServicioRouter.delete(
  * /api/tiposervicios/{id}:
  *   put:
  *     summary: Update a Tipo de servicio
+ *     description: Endpoint protegido. Requiere autenticación y rol administrador.
  *     tags: [Tipos de servicio]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -184,6 +207,12 @@ tipoServicioRouter.delete(
  *     responses:
  *       200:
  *         description: Tipo de servicio updated
+ *       400:
+ *        description: Body validation error
+ *       401:
+ *        description: Unauthorized
+ *       403:
+ *        description: Forbidden. Only admins allowed
  *       404:
  *         description: Tipo de servicio not found
  */

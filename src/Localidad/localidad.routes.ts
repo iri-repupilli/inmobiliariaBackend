@@ -116,6 +116,8 @@ localidadRouter.delete(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Localidad'
+ *       400:
+ *         description: Param validation error
  *       404:
  *         description: Localidad not found
  */
@@ -126,7 +128,10 @@ localidadRouter.delete(
  * /api/localidades:
  *   post:
  *    summary: Create a new Localidad
+ *    description: Endpoint protegido. Requiere autenticación y rol administrador.
  *    tags: [Localidades]
+ *    security:
+ *      - cookieAuth: []
  *    requestBody:
  *     required: true
  *     content:
@@ -137,10 +142,14 @@ localidadRouter.delete(
  *    responses:
  *     201:
  *      description: new Localidad created
- *     500:
- *      description: Some server error
  *     400:
  *      description: Postal code already registered
+ *     401:
+ *      description: Unauthorized
+ *     403:
+ *      description: Forbidden. Only admins allowed
+ *     500:
+ *      description: Some server error
  */
 // DELETE SWAGGER
 /**
@@ -148,7 +157,10 @@ localidadRouter.delete(
  * /api/localidades/{id}:
  *   delete:
  *     summary: Delete a Localidad
+ *     description: Endpoint protegido. Requiere autenticación y rol administrador.
  *     tags: [Localidades]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -159,6 +171,12 @@ localidadRouter.delete(
  *     responses:
  *       200:
  *         description: Localidad deleted
+ *       400:
+ *        description: Param validation error
+ *       401:
+ *        description: Unauthorized
+ *       403:
+ *        description: Forbidden. Only admins allowed
  *       404:
  *         description: Localidad not found
  */
@@ -168,7 +186,10 @@ localidadRouter.delete(
  * /api/localidades/{id}:
  *   put:
  *     summary: Update a Localidad
+ *     description: Endpoint protegido. Requiere autenticación y rol administrador.
  *     tags: [Localidades]
+ *     security:
+ *      - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -185,8 +206,14 @@ localidadRouter.delete(
  *     responses:
  *       200:
  *         description: Localidad updated
+ *       400:
+ *        description: Body validation error
+ *       401:
+ *        description: Unauthorized
+ *       403:
+ *        description: Forbidden. Only admins allowed
  *       404:
- *         description: Localidad not found
+ *        description: Localidad not found
  */
 
 export { localidadRouter };
