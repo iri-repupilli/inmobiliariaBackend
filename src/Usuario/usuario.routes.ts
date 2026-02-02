@@ -22,6 +22,7 @@ import { Request, Response, Router } from 'express';
 const usuarioRouter = Router();
 
 //RECORDAR: el orden de los ENDPOINTS importa! Las rutas mas especificas van primero
+usuarioRouter.post('/', schemaValidation(AddUsuarioSchema), add);
 usuarioRouter.post(
   '/login',
   schemaValidation(LoginUsuarioSchema),
@@ -37,7 +38,6 @@ usuarioRouter.get('/me', authMiddleware, (req: Request, res: Response) => {
   });
 });
 usuarioRouter.get('/:id', schemaValidation(FindOneUsuarioSchema), findOne);
-usuarioRouter.post('/', schemaValidation(AddUsuarioSchema), add);
 usuarioRouter.put('/:id', schemaValidation(UpdateUsuarioSchema), update);
 usuarioRouter.delete('/:id', schemaValidation(RemoveUsuarioSchema), remove);
 
