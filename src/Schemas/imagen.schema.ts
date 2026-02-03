@@ -7,7 +7,8 @@ export const findOneImagen = z.object({
 
 export const addImagen = z.object({
   body: z.object({
-    path: z.string().nonempty('La ruta es obligatoria'),
+    url: z.string().nonempty('La ruta es obligatoria'),
+    publicId: z.string().nonempty('Clave publica es obligatoria'),
     inmueble: z.number(),
   }),
   params: z.object().optional(),

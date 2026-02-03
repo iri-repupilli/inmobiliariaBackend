@@ -5,7 +5,10 @@ import { Inmueble } from '../Inmueble/inmueble.entity.js';
 @Entity()
 export class Imagen extends BaseEntity {
   @Property({ nullable: false, length: 256 })
-  path!: string;
+  url!: string;
+
+  @Property({ nullable: false })
+  publicId!: string;
 
   @ManyToOne(() => Inmueble, { nullable: false })
   inmueble!: Rel<Inmueble>;

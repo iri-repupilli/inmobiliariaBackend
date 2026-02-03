@@ -15,6 +15,13 @@ import {
 } from '../Schemas/inmueble.schema.js';
 import { authMiddleware } from '../MiddleWares/auth.middleware.js';
 import { adminMiddleware } from '../MiddleWares/admin.middleware.js';
+import { upload } from '../MiddleWares/upload.middleware.js';
+import {
+  addImagenToInmueble,
+  getImagenesByInmueble,
+} from '../Imagenes/imagen.controller.js';
+import { multerMiddleware } from '../MiddleWares/multer.middleware.js';
+import { addImagen } from '../Schemas/imagen.schema.js';
 export const inmuebleRouter = Router();
 
 inmuebleRouter.get('/', findAll);
@@ -40,6 +47,18 @@ inmuebleRouter.delete(
   schemaValidation(deleteInmuebleSchema),
   remove,
 );
+
+//ENDPOINTS PARA IMAGENES
+inmuebleRouter.post(
+  '/:id/imagen',
+  authMiddleware,
+  adminMiddleware,
+  upload.single('imagen'),
+  multerMiddleware,
+  addImagenToInmueble,
+);
+
+inmuebleRouter.get('/:id/imagenes', getImagenesByInmueble);
 
 //SCHEMA SWAGGER
 /**
