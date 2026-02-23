@@ -1,11 +1,11 @@
 import { Localidad } from './localidad.entity.js';
-import { orm } from '../shared/db/orm.js';
+import { getOrm } from '../shared/db/orm.js';
 import { Request, Response } from 'express';
-
-const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const localidades = await em.find(Localidad, {});
     res.status(200).json({ message: 'Found localidades', data: localidades });
   } catch (error: any) {
@@ -15,6 +15,8 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const localidad = await em.findOneOrFail(Localidad, id);
     res.status(200).json({ message: 'Found localidad', data: localidad });
@@ -25,6 +27,8 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const codPostal = req.body.codPostal;
     const existeLocalidad = await em.findOne(Localidad, { codPostal });
     if (
@@ -47,6 +51,8 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const codPostal = req.body.codPostal;
     const existeLocalidad = await em.findOne(Localidad, { codPostal });
     if (
@@ -69,6 +75,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const localidad = em.getReference(Localidad, id);
     await em.removeAndFlush(localidad);
@@ -77,4 +85,5 @@ async function remove(req: Request, res: Response) {
     res.status(404).json({ message: 'Localidad not found' });
   }
 }
+
 export { findAll, findOne, add, update, remove };

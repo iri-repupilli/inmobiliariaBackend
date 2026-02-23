@@ -1,4 +1,3 @@
-import { orm } from '../shared/db/orm';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { findAll } from './inmueble.controller';
 import { Inmueble } from './inmueble.entity';
@@ -7,12 +6,14 @@ const findMock = vi.fn();
 const findOneMock = vi.fn();
 
 vi.mock('../shared/db/orm', () => ({
-  orm: {
+  getOrm: vi.fn().mockResolvedValue({
     em: {
-      find: (...args: any) => findMock(...args),
-      findOne: (...args: any) => findOneMock(...args),
+      fork: () => ({
+        find: (...args: any) => findMock(...args),
+        findOne: (...args: any) => findOneMock(...args),
+      }),
     },
-  },
+  }),
 }));
 
 describe('findAll - filtros', () => {

@@ -1,11 +1,11 @@
-import { orm } from '../shared/db/orm.js';
+import { getOrm } from '../shared/db/orm.js';
 import { Request, Response } from 'express';
 import { TipoServicio } from './tipoServicio.entity.js';
 
-const em = orm.em;
-
 async function findAll(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const tipoServicios = await em.find(TipoServicio, {});
     res.status(200).json({
       message: 'found tipos de servicio',
@@ -18,6 +18,8 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const tipoServicio = await em.findOneOrFail(TipoServicio, { id });
     res
@@ -30,6 +32,8 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const tipoServicio = em.create(TipoServicio, req.body);
     await em.persistAndFlush(tipoServicio);
     res.status(201).json({
@@ -43,6 +47,8 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const tipoServicioToUpdate = await em.findOneOrFail(TipoServicio, id);
     em.assign(tipoServicioToUpdate, req.body);
@@ -58,6 +64,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const tipoServicio = em.getReference(TipoServicio, id);
     await em.removeAndFlush(tipoServicio);
@@ -77,4 +85,5 @@ async function remove(req: Request, res: Response) {
     throw error;
   }
 }
+
 export { findAll, findOne, add, update, remove };

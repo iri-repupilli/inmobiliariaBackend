@@ -1,12 +1,8 @@
-import { orm } from '../shared/db/orm.js';
 import { Request, Response } from 'express';
 import { Usuario } from './usuario.entity.js';
 import jwt from 'jsonwebtoken';
 import { RequestContext } from '@mikro-orm/core';
 import bcrypt from 'bcrypt';
-
-//Ponemos el ! pq confío en que acá SIEMPRE hay un EntityManager --> app.ts tiene el RequestContext.create
-const em = RequestContext.getEntityManager()!;
 
 async function findAll(req: Request, res: Response) {
   try {

@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { orm } from '../shared/db/orm.js';
+import { getOrm } from '../shared/db/orm.js';
 import { Visita } from './visita.entity.js';
-
-const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     // Usuario autenticado (viene del authMiddleware)
     const user = req.user as any;
 
@@ -28,8 +28,11 @@ async function findAll(req: Request, res: Response) {
     res.status(500).json({ message: error.message });
   }
 }
+
 async function findOne(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const visita = await em.findOneOrFail(
       Visita,
@@ -44,6 +47,8 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const { usuario, inmueble, ...rest } = req.body;
     const user = em.getReference('Usuario', usuario);
     const inm = em.getReference('Inmueble', inmueble);
@@ -57,6 +62,8 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const visita = await em.findOneOrFail(Visita, id);
     em.assign(visita, req.body);
@@ -69,6 +76,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const visita = em.getReference(Visita, id);
     await em.removeAndFlush(visita);

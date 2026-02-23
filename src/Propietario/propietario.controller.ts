@@ -1,11 +1,11 @@
 import { Propietario } from './propietario.entity.js';
-import { orm } from '../shared/db/orm.js';
+import { getOrm } from '../shared/db/orm.js';
 import { Request, Response, NextFunction } from 'express';
-
-const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const propietarios = await em.find(Propietario, {});
     res
       .status(200)
@@ -17,6 +17,8 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const propietario = await em.findOneOrFail(Propietario, { id });
     res.status(200).json({ message: 'Found propietario', data: propietario });
@@ -27,6 +29,8 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const mailPropietario = req.body.mailPropietario;
     const existePropietario = await em.findOne(Propietario, {
       mailPropietario,
@@ -45,6 +49,8 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const mailPropietario = req.body.mailPropietario;
     const existePropietario = await em.findOne(Propietario, {
       mailPropietario,
@@ -68,6 +74,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const propietario = em.getReference(Propietario, id);
     await em.removeAndFlush(propietario);

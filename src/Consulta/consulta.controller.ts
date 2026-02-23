@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { orm } from '../shared/db/orm.js';
+import { getOrm } from '../shared/db/orm.js';
 import { Consulta } from './consulta.entity.js';
-
-const em = orm.em;
 
 async function findAll(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const { condicion } = req.query;
     const where: any = {};
 
@@ -23,6 +23,8 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const consulta = await em.findOneOrFail(Consulta, { id });
     res.status(200).json({ message: 'Consulta encontrada', data: consulta });
@@ -33,6 +35,8 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const consulta = em.create(Consulta, req.body);
     await em.persistAndFlush(consulta);
     res.status(201).json({ message: 'consulta creada', data: consulta });
@@ -43,6 +47,8 @@ async function add(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const consulta = await em.findOneOrFail(Consulta, id);
     em.assign(consulta, req.body);
@@ -55,6 +61,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const consulta = em.getReference(Consulta, id);
     await em.removeAndFlush(consulta);

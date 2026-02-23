@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import 'reflect-metadata';
-import { orm, syncSchema } from './shared/db/orm.js';
+
 import express from 'express';
-import { RequestContext } from '@mikro-orm/core';
+
 import { propietarioRouter } from './Propietario/propietario.routes.js';
 import { inmuebleRouter } from './Inmueble/inmueble.routes.js';
 import { tipoServicioRouter } from './TipoServicio/tipoServicio.routes.js';
@@ -14,8 +14,9 @@ import { imagenRouter } from './Imagenes/imagen.routes.js';
 import swaggerUi from 'swagger-ui-express';
 import specs from './shared/docs/swagger.js';
 import cookieParser from 'cookie-parser';
-
+import { getOrm } from './shared/db/orm.js';
 import cors from 'cors';
+import { RequestContext } from '@mikro-orm/core';
 //defino la app
 const app = express();
 app.use(
@@ -30,10 +31,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 //luego de los middlewares base
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
+  const orm = await getOrm();
   RequestContext.create(orm.em, next);
 });
-
 //antes de los middlewares del negocio
 //llamada al crud
 app.use('/api/localidades', localidadRouter);
@@ -61,9 +62,4 @@ app.use((_, res) => {
   return; //dejar el return vacio o no ponerlo si utilizo express 5.0
 });
 
-await syncSchema(); //solo en desarrollo
-
-//defino el puerto por donde va a escuchar
-app.listen(3000, () => {
-  console.log('Servidor corriendo en http://localhost:3000/');
-});
+export default app;

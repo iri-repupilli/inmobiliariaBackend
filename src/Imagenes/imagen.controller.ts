@@ -1,14 +1,14 @@
 import { Imagen } from './imagen.entity.js';
-import { orm } from '../shared/db/orm.js';
+import { getOrm } from '../shared/db/orm.js';
 import { Request, Response } from 'express';
 import { Inmueble } from '../Inmueble/inmueble.entity.js';
 import cloudinary from '../config/cloudinary.js';
 import streamifier from 'streamifier';
 
-const em = orm.em;
-
 async function findAll(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const imagenes = await em.find(Imagen, {});
     res.status(200).json({ message: 'Found all imagenes', data: imagenes });
   } catch (error: any) {
@@ -18,6 +18,8 @@ async function findAll(req: Request, res: Response) {
 
 async function findOne(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const imagen = await em.findOneOrFail(Imagen, { id });
     res.status(200).json({ message: 'Found imagen', data: imagen });
@@ -28,6 +30,8 @@ async function findOne(req: Request, res: Response) {
 
 async function getImagenesByInmueble(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const inmuebleId = Number(req.params.id);
 
     const inmueble = await em.findOne(Inmueble, { id: inmuebleId });
@@ -49,6 +53,8 @@ async function getImagenesByInmueble(req: Request, res: Response) {
 
 async function addImagenToInmueble(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const inmuebleId = Number(req.params.id);
     console.log('inmueble id: ', inmuebleId);
     const inmueble = await em.findOne(Inmueble, { id: inmuebleId });
@@ -87,6 +93,8 @@ async function addImagenToInmueble(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const imagen = await em.findOneOrFail(Imagen, id);
 
@@ -109,6 +117,8 @@ async function remove(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
+    const orm = await getOrm();
+    const em = orm.em.fork();
     const id = Number.parseInt(req.params.id);
     const imagen = await em.findOneOrFail(Imagen, id);
     em.assign(imagen, req.body);
