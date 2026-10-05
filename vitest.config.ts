@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    setupFiles: ['dotenv/config'],
+    setupFiles: ['./src/test-setup.ts'],
     exclude: ['dist/**', 'node_modules/**'],
     pool: 'forks',
     env: {
