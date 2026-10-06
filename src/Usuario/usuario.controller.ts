@@ -3,6 +3,60 @@ import { Usuario } from './usuario.entity.js';
 import jwt from 'jsonwebtoken';
 import { RequestContext } from '@mikro-orm/core';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+
+function hashToken(token: string) {
+  return crypto.createHash('sha256').update(token).digest('hex');
+}
+async function forgotPassword(req: Request, res: Response) {
+  try {
+    const em = RequestContext.getEntityManager()!;
+    const { email } = req.body;
+    const usuario = await em.findOne(Usuario, { email });
+
+    if (usuario) {
+      const token = crypto.randomBytes(32).toString('hex');
+      usuario.resetPasswordToken = hashToken(token);
+      usuario.resetPasswordExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hora
+      await em.flush();
+
+      //por consola para probar
+      console.log(`http://localhost:5173/reset-password?token=${token}`);
+    }
+
+    res.status(200).json({
+      message:
+        'Si el email existe, te enviamos un link para recuperar la contraseña',
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Error al procesar la solicitud' });
+  }
+}
+
+async function resetPassword(req: Request, res: Response) {
+  try {
+    const em = RequestContext.getEntityManager()!;
+    const { token, password } = req.body;
+
+    const usuario = await em.findOne(Usuario, {
+      resetPasswordToken: hashToken(token),
+      resetPasswordExpires: { $gt: new Date() },
+    });
+
+    if (!usuario) {
+      return res.status(400).json({ message: 'Token inválido o expirado' });
+    }
+
+    usuario.password = await bcrypt.hash(password, 10);
+    usuario.resetPasswordToken = null;
+    usuario.resetPasswordExpires = null;
+    await em.flush();
+
+    res.status(200).json({ message: 'Contraseña actualizada' });
+  } catch (error: any) {
+    res.status(500).json({ message: 'Error al actualizar la contraseña' });
+  }
+}
 
 async function findAll(req: Request, res: Response) {
   try {
@@ -64,14 +118,15 @@ async function add(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const em = RequestContext.getEntityManager()!;
-    const email = req.body.email;
-    const existeUsuario = await em.findOne(Usuario, { email });
+    const mail = req.body.email;
+    const existeUsuario = await em.findOne(Usuario, { email: mail });
     if (existeUsuario && existeUsuario.id !== Number.parseInt(req.params.id)) {
       return res.status(400).json({ message: 'El mail ya esta registrado' });
     }
     const id = Number.parseInt(req.params.id);
     const usuario = await em.findOneOrFail(Usuario, { id });
-    em.assign(usuario, req.body);
+    const { nombre, apellido, email, telefono } = req.body;
+    em.assign(usuario, { nombre, apellido, email, telefono });
     await em.flush();
     res.status(200).json({ message: 'Usuario updated', data: usuario });
   } catch (error: any) {
@@ -163,6 +218,7 @@ async function getMe(req: Request, res: Response) {
     res.status(500).json({ message: 'Some server error' });
   }
 }
+
 export {
   findAll,
   findOne,
@@ -172,4 +228,6 @@ export {
   loginUsuario,
   logoutUsuario,
   getMe,
+  resetPassword,
+  forgotPassword,
 };

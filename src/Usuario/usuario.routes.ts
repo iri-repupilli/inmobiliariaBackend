@@ -17,6 +17,8 @@ import {
   loginUsuario,
   logoutUsuario,
   getMe,
+  forgotPassword,
+  resetPassword,
 } from './usuario.controller.js';
 import { Request, Response, Router } from 'express';
 
@@ -30,6 +32,8 @@ usuarioRouter.post(
   loginUsuario,
 );
 usuarioRouter.post('/logout', authMiddleware, logoutUsuario);
+usuarioRouter.post('/forgot-password', forgotPassword); //no se usa el middleware ya que el usuario no va a estar logueado, tengo que agregar la validacion con zod
+usuarioRouter.post('/reset-password', resetPassword);
 usuarioRouter.get('/', findAll);
 //devuelve el token
 usuarioRouter.get('/me', authMiddleware, getMe);

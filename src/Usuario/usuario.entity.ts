@@ -8,6 +8,7 @@ import {
 } from '@mikro-orm/core';
 import { Consulta } from '../Consulta/consulta.entity.js';
 import { Visita } from '../Visita/visita.entity.js';
+import { property } from 'zod';
 @Entity()
 export class Usuario extends BaseEntity {
   @Property({ nullable: false, length: 45 })
@@ -22,6 +23,10 @@ export class Usuario extends BaseEntity {
   telefono!: string;
   @Property({ nullable: false, length: 45 })
   rol!: string;
+  @Property({ type: 'string', nullable: true, length: 64, hidden: true })
+  resetPasswordToken?: string | null;
+  @Property({ type: 'Date', nullable: true, hidden: true })
+  resetPasswordExpires?: Date | null;
   @OneToMany(() => Consulta, (consulta) => consulta.usuario, {
     cascade: [Cascade.ALL],
   })
